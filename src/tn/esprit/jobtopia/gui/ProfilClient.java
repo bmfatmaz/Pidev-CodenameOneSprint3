@@ -7,31 +7,27 @@ package tn.esprit.jobtopia.gui;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
-import com.codename1.ui.CheckBox;
-import com.codename1.ui.Component;
 import com.codename1.ui.EncodedImage;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
-
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.plaf.Style;
 import java.io.IOException;
-import java.util.ArrayList;
-import tn.esprit.jobtopia.JobTopia;
+import tn.esprit.jobtopia.entities.Client;
+import tn.esprit.jobtopia.entities.CurrentUser;
 import tn.esprit.jobtopia.entities.Freelancer;
+import tn.esprit.jobtopia.services.ServiceClient;
 import tn.esprit.jobtopia.services.ServiceFreelancer;
 
 /**
  *
  * @author Administrateur
  */
-public class DetailsFreelancerForm extends Form{
-    static int n;
-     public DetailsFreelancerForm() throws IOException {
+public class ProfilClient extends Form {
+     static int n;
+     public ProfilClient() throws IOException {
          n=n+1;
-        Form previous = new ListFreelancerForm();
+       // Form previous = new ListFreelancerForm();
         setTitle("Détails Freelancer");
         setLayout(BoxLayout.y());
 
@@ -46,10 +42,10 @@ public class DetailsFreelancerForm extends Form{
         sp.setText(ServiceTask.getInstance().getAllTasks().toString());
         add(sp);
          */
-       Freelancer fr = ServiceFreelancer.getInstance().getFreelancer(ListFreelancerForm.freelancerid);
+       Client c = ServiceClient.getInstance().getClient(CurrentUser.getInstance().getId());
        
 
-            String urlMark = "http://localhost/" + fr.getImagePath();
+            String urlMark = "http://localhost/" + c.getImagePath();
 
             EncodedImage enc = EncodedImage.createFromImage(Image.createImage(300, 300, 0xffff0000), true);
             Image img = URLImage.createToStorage(enc, "pdp"+n+".png", urlMark);
@@ -57,16 +53,16 @@ public class DetailsFreelancerForm extends Form{
             ImageViewer imgProfilePic = new ImageViewer(img);
 
             add(imgProfilePic);
-            addElement(fr);
+            addElement(c);
         
 
      // System.out.println(ListFreelancerForm.freelancerid);
 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
+       // getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
 
     }
 
-    public void addElement(Freelancer fr) {
+    public void addElement(Client c) {
 
         //  CheckBox cb = new CheckBox(fr.getNom());
         //  cb.setEnabled(false);
@@ -74,17 +70,23 @@ public class DetailsFreelancerForm extends Form{
         //      cb.setSelected(true);
         //  }
         
-        add("Nom:   " +fr.getNom());
+        add("Nom:   " +c.getNom());
 
-        add("Prenom:   " +fr.getPrenom());
-        add("Categorie:    " +fr.getCategorie());
-          add("Email:    " +fr.getEmail());
-            add("Description:    " +fr.getDescription());
-              add("Salaire:    " +fr.getSalaire());
+        add("Prenom:   " +c.getPrenom());
+     //   add("Categorie:    " +c.getCategorie());
+          add("Email:    " +c.getEmail());
+            add("Telephone:    " +c.getTelephone());
+              add("Profession:    " +c.getProfession());
         
-      
-       // btnDetails.addActionListener(e -> {freelancerid=fr.getId();
-        //        new AddItem(this).show()});
+    Button btnModif = new Button();
+    add(btnModif);
+        btnModif.addActionListener(e -> {
+            try {
+                new ModifClient().show();
+            } catch (IOException ex) {
+               // Logger.getLogger(ProfilFreelancer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
 
     }
 }

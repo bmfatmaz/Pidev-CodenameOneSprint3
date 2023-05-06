@@ -7,19 +7,15 @@ package tn.esprit.jobtopia.gui;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
-import com.codename1.ui.CheckBox;
-import com.codename1.ui.Component;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
-
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.plaf.Style;
 import java.io.IOException;
-import java.util.ArrayList;
-import tn.esprit.jobtopia.JobTopia;
+
+import tn.esprit.jobtopia.entities.CurrentUser;
 import tn.esprit.jobtopia.entities.Freelancer;
 import tn.esprit.jobtopia.services.ServiceFreelancer;
 
@@ -27,11 +23,11 @@ import tn.esprit.jobtopia.services.ServiceFreelancer;
  *
  * @author Administrateur
  */
-public class DetailsFreelancerForm extends Form{
-    static int n;
-     public DetailsFreelancerForm() throws IOException {
+public class ProfilFreelancer extends Form {
+      static int n;
+     public ProfilFreelancer() throws IOException {
          n=n+1;
-        Form previous = new ListFreelancerForm();
+       // Form previous = new ListFreelancerForm();
         setTitle("Détails Freelancer");
         setLayout(BoxLayout.y());
 
@@ -46,7 +42,7 @@ public class DetailsFreelancerForm extends Form{
         sp.setText(ServiceTask.getInstance().getAllTasks().toString());
         add(sp);
          */
-       Freelancer fr = ServiceFreelancer.getInstance().getFreelancer(ListFreelancerForm.freelancerid);
+       Freelancer fr = ServiceFreelancer.getInstance().getFreelancer(CurrentUser.getInstance().getId());
        
 
             String urlMark = "http://localhost/" + fr.getImagePath();
@@ -62,7 +58,7 @@ public class DetailsFreelancerForm extends Form{
 
      // System.out.println(ListFreelancerForm.freelancerid);
 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
+       // getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
 
     }
 
@@ -82,9 +78,17 @@ public class DetailsFreelancerForm extends Form{
             add("Description:    " +fr.getDescription());
               add("Salaire:    " +fr.getSalaire());
         
-      
-       // btnDetails.addActionListener(e -> {freelancerid=fr.getId();
-        //        new AddItem(this).show()});
+    Button btnModif = new Button();
+    add(btnModif);
+        btnModif.addActionListener(e -> {
+            try {
+                new ModifFreelancerForm().show();
+            } catch (IOException ex) {
+               // Logger.getLogger(ProfilFreelancer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
 
     }
 }
+
+
