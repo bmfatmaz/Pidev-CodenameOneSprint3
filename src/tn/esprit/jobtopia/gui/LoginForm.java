@@ -15,6 +15,7 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import java.io.IOException;
+
 import tn.esprit.jobtopia.entities.CurrentUser;
 
 import tn.esprit.jobtopia.entities.User;
@@ -58,8 +59,24 @@ public class LoginForm extends Form {
                 // Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+         Button btn = new Button("Sign up Freelancer");
+          btn.addActionListener(e -> {
+            try {
+               new SignupFreelancerForm().show(); // Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+              //  Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       });
+          Button btnC = new Button("Sign up Client");
+          btnC.addActionListener(e -> {
+            try {
+                new SignupClientForm().show(); // Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+              //  Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
-        cn.addAll(tfUsername, tfPwd, btnLogin);
+        cn.addAll(tfUsername, tfPwd, btnLogin,btn,btnC);
         add(cn);
     }
 

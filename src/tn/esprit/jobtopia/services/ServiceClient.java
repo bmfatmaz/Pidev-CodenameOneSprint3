@@ -79,6 +79,23 @@ public class ServiceClient {
 
         return c;
     }
+       public Boolean Ajout(Client f) {
+        String url = "http://127.0.0.1:8000/ClientJson/add"+ "?nom="+f.getNom()+"&prenom="+f.getPrenom()+"&telephone="+f.getTelephone()+"&username="+f.getUsername()+"&email="+f.getEmail()+"&profession="+f.getProfession()+"&password="+f.getPassword();
+       System.out.println(url);
+        req.setUrl(url);
+        req.setPost(true);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+               // ArrayList<Freelancer> tasks = parseFreelancer(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    String rep= new String(req.getResponseData());
+
+        return true;
+    }
       public Boolean Modif(Client f) {
         String url = "http://127.0.0.1:8000/ClientJson/edit"+"?id="+f.getId()+ "&nom="+f.getNom()+"&prenom="+f.getPrenom()+"&telephone="+f.getTelephone()+"&email="+f.getEmail()+"&profession="+f.getProfession();
        System.out.println(url);

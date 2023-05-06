@@ -119,6 +119,23 @@ public class ServiceFreelancer {
 
         return true;
     }
+      public Boolean Ajout(Freelancer f) {
+        String url = "http://127.0.0.1:8000/FreelancerJson/add"+ "?nom="+f.getNom()+"&prenom="+f.getPrenom()+"&telephone="+f.getTelephone()+"&username="+f.getUsername()+"&email="+f.getEmail()+"&description="+f.getDescription()+"&password="+f.getPassword()+"&categorie="+f.getCategorie();
+       System.out.println(url);
+        req.setUrl(url);
+        req.setPost(true);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+               // ArrayList<Freelancer> tasks = parseFreelancer(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    String rep= new String(req.getResponseData());
+
+        return true;
+    }
 
     public ArrayList<Freelancer> parseFreelancer(String jsonText) {
         ArrayList<Freelancer> freelancers = new ArrayList<>();
