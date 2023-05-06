@@ -17,7 +17,10 @@ import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Style;
+import java.io.IOException;
 import java.util.ArrayList;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import tn.esprit.jobtopia.JobTopia;
 import tn.esprit.jobtopia.entities.Freelancer;
 import tn.esprit.jobtopia.services.ServiceFreelancer;
@@ -73,7 +76,12 @@ public class ListFreelancerForm extends Form {
         Button btnDetails = new Button("Détails");
 add(btnDetails);
         btnDetails.addActionListener((ActionEvent e) -> {freelancerid=fr.getId();
-                new DetailsFreelancerForm().show();});
+            try {
+                new DetailsFreelancerForm().show();
+            } catch (IOException ex) {
+               // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
 
     }
 

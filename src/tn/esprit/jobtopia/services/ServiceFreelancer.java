@@ -15,7 +15,10 @@ import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import tn.esprit.jobtopia.entities.Freelancer;
+import tn.esprit.jobtopia.gui.ListFreelancerForm;
 
 /**
  *
@@ -36,6 +39,48 @@ public class ServiceFreelancer {
             instance = new ServiceFreelancer();
         }
         return instance;
+    }
+
+    public Freelancer getFreelancer() throws IOException {
+      String url = "http://127.0.0.1:8000/FreelancerJson/" + ListFreelancerForm.freelancerid;
+req.setUrl(url);
+req.setPost(false);
+  Freelancer fr = new Freelancer();
+req.addResponseListener(new ActionListener<NetworkEvent>() {
+    @Override
+    public void actionPerformed(NetworkEvent evt) {
+        String json = new String(req.getResponseData());
+        JSONParser parser = new JSONParser();
+        try {
+            Map<String, Object> freelancerMap = parser.parseJSON(new CharArrayReader(json.toCharArray()));
+            String nom = (String) freelancerMap.get("nom");
+            String prenom = (String) freelancerMap.get("prenom");
+            String email = (String) freelancerMap.get("email");
+            String description = (String) freelancerMap.get("description");
+                        String categorie = (String) freelancerMap.get("categorie");
+          //  float salaire = Float.parseFloat((String) freelancerMap.get("salaire"));
+
+            String photoData = (String) freelancerMap.get("imagepath");
+          
+            fr.setNom(nom);
+            fr.setPrenom(prenom);
+            fr.setEmail(email);
+            fr.setDescription(description);
+            fr.setImagePath(photoData);  
+            fr.setCategorie(categorie);
+          //  fr.setSalaire(salaire);
+
+            System.out.println(fr);
+            // do something with the freelancer object
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        req.removeResponseListener(this);
+    }
+});
+NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return fr;
     }
 
     public ArrayList<Freelancer> getAllTasks() {
@@ -68,13 +113,12 @@ public class ServiceFreelancer {
                 Freelancer t = new Freelancer();
                 t.setImagePath(obj.get("imagepath").toString());
 
-                  float id = Float.parseFloat(obj.get("id").toString());
+                float id = Float.parseFloat(obj.get("id").toString());
                 // t.setStatus(((int) Float.parseFloat(obj.get("status").toString())));
                 t.setId((int) id);
                 t.setNom(obj.get("nom").toString());
                 t.setPrenom(obj.get("prenom").toString());
                 t.setCategorie(obj.get("categorie").toString());
-                
 
                 freelancers.add(t);
             }
