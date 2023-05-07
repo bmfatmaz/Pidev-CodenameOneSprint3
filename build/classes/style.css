@@ -1,0 +1,26 @@
+.offre-title {
+    font-size: medium;
+    font-weight: bold;
+    color: #333333;
+}
+
+.offre-description {
+    margin-top: 5mm;
+    margin-bottom: 5mm;
+    font-size: small;
+    color: #666666;
+}
+
+.offre-categorie {
+    font-size: small;
+    color: #999999;
+}
+
+.offre-details {
+    margin-top: 5mm;
+    margin-bottom: 5mm;
+    font-size: small;
+    color: #007aff;
+    border: none;
+    background-color: transparent;
+}

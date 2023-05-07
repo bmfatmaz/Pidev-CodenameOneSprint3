@@ -43,6 +43,7 @@ public class ServiceOffres {
     }
   public Offre getOffre() throws IOException {
       String url = "http://127.0.0.1:8000/users/offres/" + ListOffreForm.offreid;
+      System.out.println(ListOffreForm.offreid);
     req.setUrl(url);
     req.setPost(false);
     Offre fr = new Offre();
@@ -110,6 +111,7 @@ NetworkManager.getInstance().addToQueueAndWait(req);
                 for (Map<String, Object> obj : list) {
                     Offre o = new Offre();
                     float id = Float.parseFloat(obj.get("id").toString());
+                    o.setId((int)id);
                     o.setTitre(obj.get("titre").toString());
                     o.setDescription(obj.get("description").toString());
                     o.setCategorie(obj.get("categorie").toString());   
@@ -187,6 +189,22 @@ public ArrayList<Offre> parseOffre(String jsonText) {
 
         return true;
     }
+       public Boolean Modif(Offre o) {
+        String url = "http://127.0.0.1:8000/OffreJson/edit"+"?id="+o.getId()+ "&titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie();
+       System.out.println(url);
+        req.setUrl(url);
+        req.setPost(true);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+               // ArrayList<Freelancer> tasks = parseFreelancer(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    String rep= new String(req.getResponseData());
+
+        return true;
     }
-
-
+    
+    }

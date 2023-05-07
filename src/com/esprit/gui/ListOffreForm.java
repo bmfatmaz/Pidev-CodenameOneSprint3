@@ -27,6 +27,7 @@ public class ListOffreForm extends Form{
         Form previous = new Form();
         setTitle("Offres Disponibles");
         setLayout(BoxLayout.y());
+        
 
         /*SpanLabel sp = new SpanLabel();
         sp.setText(ServiceTask.getInstance().getAllTasks().toString());

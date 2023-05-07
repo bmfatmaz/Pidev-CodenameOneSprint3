@@ -14,6 +14,7 @@ import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
 import com.esprit.entities.Offre;
+import com.esprit.gui.AcceuilOffreForm;
 import com.esprit.gui.AjouterOffreForm;
 import com.esprit.gui.ListOffreForm;
 import com.esprit.gui.OffreClientForm;
@@ -53,7 +54,7 @@ public class topiaJob {
     
     public void start()  {
     
-            new OffreClientForm().show();
+            new ListOffreForm().show();
     
     }
 

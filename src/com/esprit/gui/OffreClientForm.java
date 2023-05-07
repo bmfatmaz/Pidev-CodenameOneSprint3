@@ -10,6 +10,7 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.UIManager;
 import com.esprit.entities.Offre;
 import static com.esprit.gui.ListOffreForm.offreid;
 import com.esprit.services.ServiceOffres;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
  * @author Salma Majeri
  */
 public class OffreClientForm extends Form {
-    
+        public static int offreid;
+
       public OffreClientForm() {
         Form previous = new Form();
         setTitle("Liste Offres");
@@ -60,7 +62,15 @@ public class OffreClientForm extends Form {
        
          add("Date Création:   " +fr.getDateCreation());
 
-        Button btnDetails = new Button("Détails");
-        add(btnDetails);
+              
+    Button btnModif = new Button("Modifier");
+    add(btnModif);
+        btnModif.addActionListener((ActionEvent e) -> {offreid=fr.getId();
+            try {
+                new ModifierOffreForm(offreid).show();
+            } catch (IOException ex) {
+               // Logger.getLogger(ProfilFreelancer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+});
 }
 }
