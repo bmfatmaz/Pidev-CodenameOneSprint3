@@ -20,27 +20,33 @@ public class Offre {
      private String titre;
      private String description;
      private String dateLimite;
-     private Date dateCreation;
+     private String dateCreation;
      private String categorie;
+     private String Etat;
      private String skill1;
      private String skill2;
      private String skill3;
 
-    public Offre(int clientId, String titre, String description, String dateLimite, Date dateCreation, String categorie, String skill1, String skill2, String skill3) {
+    public Offre(int clientId, String titre, String description, String dateLimite, String dateCreation, String categorie, String Etat, String skill1, String skill2, String skill3) {
         this.clientId = clientId;
         this.titre = titre;
         this.description = description;
         this.dateLimite = dateLimite;
         this.dateCreation = dateCreation;
         this.categorie = categorie;
+        this.Etat = Etat;
         this.skill1 = skill1;
         this.skill2 = skill2;
         this.skill3 = skill3;
     }
 
-     
-     
-     
+    public String getEtat() {
+        return Etat;
+    }
+
+    public void setEtat(String Etat) {
+        this.Etat = Etat;
+    }   
     public int getClientId() {
         return clientId;
     }
@@ -85,11 +91,11 @@ public class Offre {
         this.dateLimite = dateLimite;
     }
 
-    public Date getDateCreation() {
+    public String getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(Date dateCreation) {
+    public void setDateCreation(String dateCreation) {
         this.dateCreation = dateCreation;
     }
 
@@ -127,8 +133,10 @@ public class Offre {
 
     @Override
     public String toString() {
-        return "Offre{" + "id=" + id + ", titre=" + titre + ", description=" + description + ", dateLimite=" + dateLimite + ", dateCreation=" + dateCreation + ", categorie=" + categorie + ", skill1=" + skill1 + ", skill2=" + skill2 + ", skill3=" + skill3 + '}';
+        return "Offre{" + "id=" + id + ", clientId=" + clientId + ", titre=" + titre + ", description=" + description + ", dateLimite=" + dateLimite + ", dateCreation=" + dateCreation + ", categorie=" + categorie + ", Etat=" + Etat + ", skill1=" + skill1 + ", skill2=" + skill2 + ", skill3=" + skill3 + '}';
     }
+
+  
 
     
     

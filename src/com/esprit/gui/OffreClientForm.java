@@ -10,8 +10,8 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.util.Resources;
 import com.esprit.entities.Offre;
+import static com.esprit.gui.ListOffreForm.offreid;
 import com.esprit.services.ServiceOffres;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,19 +20,18 @@ import java.util.ArrayList;
  *
  * @author Salma Majeri
  */
-public class ListOffreForm extends Form{
+public class OffreClientForm extends Form {
     
-    public static int offreid;
-    public ListOffreForm() {
+      public OffreClientForm() {
         Form previous = new Form();
-        setTitle("Offres Disponibles");
+        setTitle("Liste Offres");
         setLayout(BoxLayout.y());
 
         /*SpanLabel sp = new SpanLabel();
         sp.setText(ServiceTask.getInstance().getAllTasks().toString());
         add(sp);
          */
-        ArrayList<Offre> offres = ServiceOffres.getInstance().getAllTasks();
+          ArrayList<Offre> offres = ServiceOffres.getInstance().getTasks();
         int n = 0;
         for (Offre o : offres) {
             n = n + 1;
@@ -57,21 +56,11 @@ public class ListOffreForm extends Form{
 
         add("Description:   " +fr.getDescription());
         
-        add("Categorie:   " +fr.getCategorie());
+        add("Etat:   " +fr.getEtat());
+       
+         add("Date Création:   " +fr.getDateCreation());
 
         Button btnDetails = new Button("Détails");
         add(btnDetails);
-        btnDetails.addActionListener((ActionEvent e) -> {offreid=fr.getId();
-          try{
-              new DetailsOffreFrom().show();
-          
-          } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-                  
-          }
-});
-
-    }
-
-    
+}
 }

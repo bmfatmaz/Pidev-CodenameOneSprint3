@@ -122,6 +122,54 @@ NetworkManager.getInstance().addToQueueAndWait(req);
         }
         return offres;
     }
+  public ArrayList<Offre> getTasks() {
+    String url = "http://127.0.0.1:8000/users/offresClient";
+    req.setUrl(url);
+    req.setPost(false);
+
+    ArrayList<Offre> offres = new ArrayList<>();
+    
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            ArrayList<Offre> tasks = parseOffre(new String(req.getResponseData()));
+            offres.addAll(tasks);
+        }
+    });
+
+    NetworkManager.getInstance().addToQueueAndWait(req);
+
+    return offres;
+}
+
+public ArrayList<Offre> parseOffre(String jsonText) {
+    ArrayList<Offre> offres = new ArrayList<>();
+
+    try {
+        JSONParser j = new JSONParser();
+        Map<String, Object> offreListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+        List<Map<String, Object>> list = (List<Map<String, Object>>) offreListJson.get("root");
+
+        if (list != null) {
+            for (Map<String, Object> obj : list) {
+                Offre o = new Offre();
+                float id = Float.parseFloat(obj.get("id").toString());
+               
+                o.setTitre(obj.get("titre").toString());
+                o.setDescription(obj.get("description").toString());
+                o.setEtat(obj.get("etat").toString());   
+                o.setDateCreation(obj.get("dc").toString());   
+                offres.add(o);
+            }
+        }
+    } catch (IOException ex) {
+        System.out.println(ex.getMessage());
+    }
+
+    return offres;
+}
+
+    
     
      public boolean Ajout(Offre o) {
         String url = "http://127.0.0.1:8000/OffreJson/add"+ "?titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie()+"&clientId="+o.getClientId();

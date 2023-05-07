@@ -16,6 +16,7 @@ import com.codename1.io.NetworkEvent;
 import com.esprit.entities.Offre;
 import com.esprit.gui.AjouterOffreForm;
 import com.esprit.gui.ListOffreForm;
+import com.esprit.gui.OffreClientForm;
 
 
 /**
@@ -51,12 +52,9 @@ public class topiaJob {
     }
     
     public void start()  {
-       
-        try {
-            new AjouterOffreForm().show();
-        } catch (IOException ex) {
-          //  Logger.getLogger(topiaJob.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    
+            new OffreClientForm().show();
+    
     }
 
     public void stop() {
