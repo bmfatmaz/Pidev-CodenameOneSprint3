@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package tn.esprit.gui;
 
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
@@ -19,10 +19,10 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import entities.Candidature;
+import tn.esprit.entities.Candidature;
 import java.io.IOException;
 import java.util.Vector;
-import services.ServiceCandidature;
+import tn.esprit.services.ServiceCandidature;
 
 /**
  *

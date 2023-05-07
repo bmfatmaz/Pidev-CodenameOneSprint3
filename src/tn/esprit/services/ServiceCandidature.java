@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services;
+package tn.esprit.services;
 
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
@@ -11,14 +11,12 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
-import entities.Candidature;
-import gui.ListCandidatureForm;
+import tn.esprit.entities.Candidature;
+import tn.esprit.gui.ListCandidatureForm;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -44,7 +42,7 @@ public class ServiceCandidature {
 
     
     public boolean AjouterCandidature(Candidature c) {
-        String url = "http://127.0.0.1:8000/addCandidJSON/" + "new"+"?freelancerID=" + c.getfreelancerID()+ "&offreID=" + c.getOfferID()+ "&etat=EnAttente" +"&lettremotivation="+ c.getLettreMotivation()+"&cv=myfile";
+        String url = "http://127.0.0.1:8000/addCandidJSON/" + "new"+"?freelancerID=" + c.getfreelancerID()+ "&offreID=" + c.getOfferID()+ "&etat=EnAttente" +"&lettremotivation="+ c.getLettreMotivation()+"&cv="+c.getCv();
         System.out.println(url);
         req.setUrl(url);
         

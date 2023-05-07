@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package tn.esprit.gui;
 
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
@@ -11,10 +11,10 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
-import entities.Candidature;
+import tn.esprit.entities.Candidature;
 import java.io.IOException;
 import java.util.ArrayList;
-import services.ServiceCandidature;
+import tn.esprit.services.ServiceCandidature;
 
 /**
  *
