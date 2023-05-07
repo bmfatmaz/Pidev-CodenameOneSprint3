@@ -12,7 +12,6 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.esprit.entities.Offre;
-import static com.esprit.gui.ListOffreForm.offreid;
 import com.esprit.services.ServiceOffres;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +36,7 @@ public class OffreClientForm extends Form {
         int n = 0;
         for (Offre o : offres) {
             n = n + 1;
+            
             addElement(o);
           
         }
@@ -63,14 +63,16 @@ public class OffreClientForm extends Form {
          add("Date Création:   " +fr.getDateCreation());
 
               
-    Button btnModif = new Button("Modifier");
-    add(btnModif);
+   Button btnModif = new Button("Modifier");
+        add(btnModif);
         btnModif.addActionListener((ActionEvent e) -> {offreid=fr.getId();
-            try {
-                new ModifierOffreForm(offreid).show();
-            } catch (IOException ex) {
-               // Logger.getLogger(ProfilFreelancer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          try{
+              new ModifierOffreForm(offreid).show();
+          
+          } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+                  
+          }
 });
 }
 }

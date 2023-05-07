@@ -5,9 +5,13 @@
  */
 package com.esprit.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
@@ -23,22 +27,23 @@ import java.util.ArrayList;
 public class ListOffreForm extends Form{
     
     public static int offreid;
-    public ListOffreForm() {
+    public ListOffreForm() throws IOException {
         Form previous = new Form();
         setTitle("Offres Disponibles");
         setLayout(BoxLayout.y());
         
 
-        /*SpanLabel sp = new SpanLabel();
-        sp.setText(ServiceTask.getInstance().getAllTasks().toString());
-        add(sp);
-         */
+    
         ArrayList<Offre> offres = ServiceOffres.getInstance().getAllTasks();
         int n = 0;
         for (Offre o : offres) {
             n = n + 1;
+          String logoPath = "file:///C:/Users/Salma Majeri/jobtopia/public/Images/" + o.getLogoPath();
+            Image img = Image.createImage(logoPath);
+            ImageViewer imgProfilePic = new ImageViewer(img);
+            add(imgProfilePic);
             addElement(o);
-          
+
         }
 
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());

@@ -6,10 +6,12 @@
 package com.esprit.gui;
 
 import com.codename1.ui.Button;
+import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.FlowLayout;
 import java.io.IOException;
 
 /**
@@ -21,14 +23,13 @@ public class AcceuilOffreForm extends Form {
     public AcceuilOffreForm() {
         setTitle("Accueil");
         setLayout(BoxLayout.y());
-        setScrollableY(true); // make the form scrollable
+        setLayout(new FlowLayout(CENTER, CENTER));
+        setScrollableY(true); 
         
-        // create an empty container to push the content to the center of the page
         Container topSpacer = new Container();
-        topSpacer.setUIID("ContainerTopSpacer"); // set a UIID to customize the style
+        topSpacer.setUIID("ContainerTopSpacer");
         topSpacer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-        
-        // create the buttons
+     
         Button btnAjouterOffre = new Button("Ajouter Offre");
         Button btnListeOffres = new Button("Liste des Offres");
         

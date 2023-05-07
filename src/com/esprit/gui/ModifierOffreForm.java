@@ -28,7 +28,7 @@ public ModifierOffreForm(int offreId) throws IOException {
     setTitle("Modification Offre");
     setLayout(new FlowLayout(CENTER, CENTER));
         
-    Offre o = ServiceOffres.getInstance().getOffre();
+    Offre o = ServiceOffres.getInstance().getOffreBYid();System.out.println(o);
     TextField tfTitre = new TextField(o.getTitre());
     TextField tfDescription = new TextField(o.getDescription());
     TextField tfCatg = new TextField(o.getCategorie());
@@ -38,6 +38,7 @@ public ModifierOffreForm(int offreId) throws IOException {
        
     btnLogin.addActionListener(e->{
         ServiceOffres su= new ServiceOffres();
+       // o.setId(ListOffreForm.offreid);
         o.setTitre(tfTitre.getText());
         o.setDescription(tfDescription.getText());
         o.setCategorie(tfCatg.getText());

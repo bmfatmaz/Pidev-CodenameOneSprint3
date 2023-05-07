@@ -48,7 +48,7 @@ public class AjouterOffreForm extends Form  {
     public AjouterOffreForm() throws IOException {
     
 
-        setTitle("Ajout Form");
+        setTitle("Ajouter Offre");
         setLayout(new FlowLayout(CENTER, CENTER));
       //  System.out.println(CurrentUser.getInstance().getId());
          //      Freelancer fr = ServiceFreelancer.getInstance().getFreelancer(CurrentUser.getInstance().getId());
@@ -61,11 +61,11 @@ public class AjouterOffreForm extends Form  {
    
 });
 
-//        Picker datePicker = new Picker();
-//        datePicker.setType(Display.PICKER_TYPE_DATE);
+       Picker datePicker = new Picker();
+        datePicker.setType(Display.PICKER_TYPE_DATE);
         TextField tfDsc = new TextField(fr.getDescription(),"Description");
-       TextField tfClient = new TextField(Integer.toString(fr.getClientId()));
-        tfClient.setHint("clientId");
+      
+       
 
               //  TextField cat = new TextField(fr.getCategorie());
       Vector<String> vectorCat;
@@ -91,8 +91,8 @@ public class AjouterOffreForm extends Form  {
         f.setTitre(tfTitre.getText());
     f.setDescription(tfDsc.getText());
     f.setCategorie(categorie.getSelectedItem().toString());
-    int clientId = Integer.parseInt(tfClient.getText());
-    f.setClientId(clientId);
+    
+    f.setClientId(18);
 
    if (f.getTitre().length() < 3) {
         Dialog.show("Warning", "Le titre doit contenir au moins 3 caractères", "OK", null);
@@ -109,7 +109,7 @@ public class AjouterOffreForm extends Form  {
         Dialog.show("Success", "Offre ajoutée avec succès !", "OK", null);
     }
 });
-        cn.addAll(tfTitre,tfDsc,categorie,tfClient, btnLogin);
+        cn.addAll(tfTitre,tfDsc,categorie, btnLogin);
         add(cn);        
     }
    

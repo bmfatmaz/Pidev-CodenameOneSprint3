@@ -26,8 +26,9 @@ public class Offre {
      private String skill1;
      private String skill2;
      private String skill3;
+     private String logoPath;
 
-    public Offre(int clientId, String titre, String description, String dateLimite, String dateCreation, String categorie, String Etat, String skill1, String skill2, String skill3) {
+    public Offre(int clientId, String titre, String description, String dateLimite, String dateCreation, String categorie, String Etat, String skill1, String skill2, String skill3, String logoPath) {
         this.clientId = clientId;
         this.titre = titre;
         this.description = description;
@@ -38,8 +39,10 @@ public class Offre {
         this.skill1 = skill1;
         this.skill2 = skill2;
         this.skill3 = skill3;
+        this.logoPath = logoPath;
     }
 
+   
     public String getEtat() {
         return Etat;
     }
@@ -129,6 +132,14 @@ public class Offre {
 
     public void setSkill3(String skill3) {
         this.skill3 = skill3;
+    }
+
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
     }
 
     @Override
