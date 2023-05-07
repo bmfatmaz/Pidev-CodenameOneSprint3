@@ -46,7 +46,11 @@ tb.addComponentToSideMenu(topBar);
 
 tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> { this.show(); // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
 }); 
-tb.addMaterialCommandToSideMenu("Website", FontImage.MATERIAL_WEB, e -> {});
+tb.addMaterialCommandToSideMenu("Offres", FontImage.MATERIAL_WEB, e -> { 
+ 
+    new AcceuilOffreForm().show();
+    // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+});
 tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> { 
  
              try {
@@ -58,7 +62,7 @@ tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> {
                  
                  //Logger.getLogger(AccueilFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
              }});
-tb.addMaterialCommandToSideMenu("About", FontImage.MATERIAL_INFO, e -> {});
+tb.addMaterialCommandToSideMenu("Déconnecter", FontImage.MATERIAL_INFO, e -> { new LoginForm().show();});
         Form previous = new Form();
         setTitle("List Freelancers");
         setLayout(BoxLayout.y());

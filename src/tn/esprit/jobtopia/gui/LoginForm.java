@@ -48,7 +48,7 @@ public class LoginForm extends Form {
                         new ListFreelancerForm().show();
                     } else {
                          CurrentUser.getInstance().setId(user.getId());
-                        new AccueilFreelancerForm().show();
+                       new ListOffreForm().show();
                     }
                 } else {
                     Dialog.show("Warning", "Invalid username or password ! ", "OK", null);

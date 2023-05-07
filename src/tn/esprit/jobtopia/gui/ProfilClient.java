@@ -7,12 +7,18 @@ package tn.esprit.jobtopia.gui;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
+import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
+import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import java.io.IOException;
+import static tn.esprit.jobtopia.JobTopia.theme;
 import tn.esprit.jobtopia.entities.Client;
 import tn.esprit.jobtopia.entities.CurrentUser;
 import tn.esprit.jobtopia.entities.Freelancer;
@@ -28,6 +34,32 @@ public class ProfilClient extends Form {
      public ProfilClient() throws IOException {
          n=n+1;
        // Form previous = new ListFreelancerForm();
+                Toolbar tb = this.getToolbar();
+Image icon = theme.getImage("icon.png"); 
+Container topBar = BorderLayout.east(new Label(icon));
+topBar.add(BorderLayout.SOUTH, new Label("Cool App Tagline...", "SidemenuTagline")); 
+topBar.setUIID("SideCommand");
+tb.addComponentToSideMenu(topBar);
+
+tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> { new ListFreelancerForm().show(); // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+}); 
+tb.addMaterialCommandToSideMenu("Offres", FontImage.MATERIAL_WEB, e -> { 
+ 
+    new AcceuilOffreForm().show();
+    // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+});
+tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> { 
+ 
+             try {
+                 new ProfilClient().show();
+                 // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (IOException ex) {
+               
+                 
+                 
+                 //Logger.getLogger(AccueilFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+             }});
+tb.addMaterialCommandToSideMenu("Déconnecter", FontImage.MATERIAL_INFO, e -> { new LoginForm().show();});
         setTitle("Détails Freelancer");
         setLayout(BoxLayout.y());
 
@@ -48,7 +80,7 @@ public class ProfilClient extends Form {
             String urlMark = "http://localhost/" + c.getImagePath();
 
             EncodedImage enc = EncodedImage.createFromImage(Image.createImage(300, 300, 0xffff0000), true);
-            Image img = URLImage.createToStorage(enc, "pdp"+n+".png", urlMark);
+            Image img = URLImage.createToStorage(enc, "pdpcl.png", urlMark);
 
             ImageViewer imgProfilePic = new ImageViewer(img);
 
