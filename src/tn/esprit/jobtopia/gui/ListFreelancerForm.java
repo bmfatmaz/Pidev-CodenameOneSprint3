@@ -34,8 +34,6 @@ import java.util.ArrayList;
 
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
-
-
 import tn.esprit.jobtopia.JobTopia;
 import static tn.esprit.jobtopia.JobTopia.theme;
 import tn.esprit.jobtopia.entities.Freelancer;
@@ -50,8 +48,8 @@ public class ListFreelancerForm extends Form {
     public static int freelancerid;
 
     public ListFreelancerForm() {
-        
-               Toolbar tb = this.getToolbar();
+
+        Toolbar tb = this.getToolbar();
         Image icon = theme.getImage("icon.png");
         Container topBar = BorderLayout.east(new Label(icon));
         topBar.add(BorderLayout.SOUTH, new Label("JobTopia", "SidemenuTagline"));
@@ -82,33 +80,33 @@ public class ListFreelancerForm extends Form {
         Form previous = new Form();
         setTitle("List Freelancers");
         setLayout(BoxLayout.y());
-   TextField tfsearch = new TextField("","search here");
-   add(tfsearch);
-    Button search = new Button("search");
+        TextField tfsearch = new TextField("", "search here");
+        add(tfsearch);
+        Button search = new Button("search");
         add(search);
         search.addActionListener((ActionEvent e) -> {
             removeAll();
-           String searchQ = tfsearch.getText();
-           System.out.println(searchQ);
-           ArrayList<Freelancer> frs=ServiceFreelancer.getInstance().Search(searchQ);
-           //System.out.println(frs);
-           
-           int n=200;
-             for (Freelancer t : frs) {
-                  n = n + t.getId();
+            String searchQ = tfsearch.getText();
+            System.out.println(searchQ);
+            ArrayList<Freelancer> frs = ServiceFreelancer.getInstance().Search(searchQ);
+            //System.out.println(frs);
 
-            String urlMark = "http://localhost/" + t.getImagePath();
+            int n = 200;
+            for (Freelancer t : frs) {
+                n = n + t.getId();
 
-            EncodedImage enc = EncodedImage.createFromImage(Image.createImage(300, 300, 0xffff0000), true);
-            Image img = URLImage.createToStorage(enc, "mark" + n + ".png", urlMark);
+                String urlMark = "http://localhost/" + t.getImagePath();
 
-            ImageViewer imgProfilePic = new ImageViewer(img);
+                EncodedImage enc = EncodedImage.createFromImage(Image.createImage(300, 300, 0xffff0000), true);
+                Image img = URLImage.createToStorage(enc, "mark" + n + ".png", urlMark);
 
-            add(imgProfilePic);
-                 addElement(t); // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
-}
+                ImageViewer imgProfilePic = new ImageViewer(img);
+
+                add(imgProfilePic);
+                addElement(t); // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
-        
+
         revalidate();
         /*SpanLabel sp = new SpanLabel();
         sp.setText(ServiceTask.getInstance().getAllTasks().toString());
@@ -127,7 +125,7 @@ public class ListFreelancerForm extends Form {
             ImageViewer imgProfilePic = new ImageViewer(img);
 
             add(imgProfilePic);
-            
+
             addElement(t);
         }
 
@@ -145,30 +143,27 @@ public class ListFreelancerForm extends Form {
 
         add("Prenom:   " + fr.getPrenom());
         add("Categorie:    " + fr.getCategorie());
-        add("Note:");
+        add("Note:" +  Math.round(fr.getNote() * 100.0) / 100.0);
         Slider ratingSlider = new Slider();
         ratingSlider.setPreferredSize(new Dimension(300, 50));
-ratingSlider.setEditable(true);
-ratingSlider.setMinValue(0);
-ratingSlider.setMaxValue(5);
+        ratingSlider.setEditable(true);
+        ratingSlider.setMinValue(0);
+        ratingSlider.setMaxValue(5);
 
-ratingSlider.setProgress((int)fr.getNote());
-add(ratingSlider);
-ratingSlider.addActionListener(e -> {
-    int rating = ratingSlider.getProgress();
-    ServiceFreelancer.getInstance().Noter(fr.getId(),ratingSlider.getProgress());
-    System.out.println(rating);
-   // ServiceFreelancer.getInstance().saveRating(fr.getId(), rating);
-});
+        ratingSlider.setProgress((int) fr.getNote());
+        add(ratingSlider);
+        ratingSlider.addActionListener(e -> {
+            int rating = ratingSlider.getProgress();
+            ServiceFreelancer.getInstance().Noter(fr.getId(), ratingSlider.getProgress());
+            //refreshList();
+            new ListFreelancerForm().show();
+            System.out.println(rating);
+            // ServiceFreelancer.getInstance().saveRating(fr.getId(), rating);
+        });
 
-
-
-   
-
-    
-//        add(FlowLayout.encloseCenter(createStarRankSlider()));
+//      add(FlowLayout.encloseCenter(createStarRankSlider()));
         Button btnDetails = new Button("Détails");
-  
+
         add(btnDetails);
         btnDetails.addActionListener((ActionEvent e) -> {
             freelancerid = fr.getId();
@@ -180,31 +175,14 @@ ratingSlider.addActionListener(e -> {
         });
 
     }
-    private void initStarRankStyle(Style s, Image star) {
-    s.setBackgroundType(Style.BACKGROUND_IMAGE_TILE_BOTH);
-    s.setBorder(Border.createEmpty());
-    s.setBgImage(star);
-    s.setBgTransparency(0);
-}
 
-private Slider createStarRankSlider() {
-    Slider starRank = new Slider();
-    starRank.setEditable(true);
-    starRank.setMinValue(0);
-    starRank.setMaxValue(10);
-    Font fnt = Font.create("").
-            derive(Display.getInstance().convertToPixels(5, true), Font.STYLE_PLAIN);
-    Style s = new Style(0xffff33, 0, fnt, (byte)0);
-    Image fullStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
-    s.setOpacity(100);
-    s.setFgColor(0);
-    Image emptyStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
-    initStarRankStyle(starRank.getSliderEmptySelectedStyle(), emptyStar);
-    initStarRankStyle(starRank.getSliderEmptyUnselectedStyle(), emptyStar);
-    initStarRankStyle(starRank.getSliderFullSelectedStyle(), fullStar);
-    initStarRankStyle(starRank.getSliderFullUnselectedStyle(), fullStar);
-    starRank.setPreferredSize(new Dimension(fullStar.getWidth() * 5, fullStar.getHeight()));
-    return starRank;
-}
+    public void refreshList() {
+        removeAll();
+        ArrayList<Freelancer> frs = ServiceFreelancer.getInstance().getAllTasks();
+        for (Freelancer fr : frs) {
+            addElement(fr);
+        }
+        revalidate();
+    }
 
 }

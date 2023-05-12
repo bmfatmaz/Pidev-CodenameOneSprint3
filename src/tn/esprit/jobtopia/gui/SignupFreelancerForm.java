@@ -13,6 +13,7 @@ import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.TextField;
@@ -42,6 +43,8 @@ public class SignupFreelancerForm extends Form {
 
         setTitle("Signup Freelancer Form");
         setLayout(new FlowLayout(CENTER, CENTER));
+          Form previous = new LoginForm();
+         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
         try {
             Freelancer fr = new Freelancer();
             TextField tfNom = new TextField(fr.getNom(), "Nom");

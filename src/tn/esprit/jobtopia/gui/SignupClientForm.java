@@ -14,6 +14,7 @@ import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.TextField;
@@ -55,10 +56,12 @@ public class SignupClientForm extends Form {
 
         setTitle("Signup Client Form");
         setLayout(new FlowLayout(CENTER, CENTER));
+         Form previous = new LoginForm();
         //  System.out.println(CurrentUser.getInstance().getId());
         //      Freelancer fr = ServiceFreelancer.getInstance().getFreelancer(CurrentUser.getInstance().getId());
 
         // TextField tfUsername = new TextField(fr.getUsername());
+         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
         try {
             Client fr = new Client();
             TextField tfNom = new TextField(fr.getNom(), "Nom");
@@ -147,6 +150,7 @@ public class SignupClientForm extends Form {
                         Boolean aj = su.Ajout(f);
                         Session session;
                         Dialog.show("Warning", "Profil  Ajouté ! ", "OK", null);
+                       
 //              String from = "fatmazahra.benhajminiaoui@esprit.tn";
 //              
 //                        String passwordmail = "223JFT3425";

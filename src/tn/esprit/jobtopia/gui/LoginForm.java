@@ -5,13 +5,17 @@
  */
 package tn.esprit.jobtopia.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import java.io.IOException;
@@ -31,7 +35,14 @@ public class LoginForm extends Form {
 
         setTitle("Login Form");
         setLayout(new FlowLayout(CENTER, CENTER));
+   String urlMark = "http://localhost/logo.png";
 
+            EncodedImage enc = EncodedImage.createFromImage(Image.createImage(500, 200, 0xffff0000), true);
+            Image img = URLImage.createToStorage(enc, "logo.png", urlMark);
+
+            ImageViewer imgProfilePic = new ImageViewer(img);
+
+            add(imgProfilePic);
         TextField tfUsername = new TextField("", "Username");
         TextField tfPwd = new TextField("", "Password", 0, TextField.PASSWORD);
         Button btnLogin = new Button("Se connecter");

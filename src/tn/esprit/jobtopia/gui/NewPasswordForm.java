@@ -39,6 +39,7 @@ public class NewPasswordForm extends Form{
 //                if(tfUsername.getText()=="" ||tfPwd.getText()==""){
 //                    Dialog.show("Warning", "Pseudo et mot de passe sont obligatoires! ", "OK", null);
 //                }
+                System.out.println(newpass.getText());
                 if(!confirmpass.getText().equals(newpass.getText())||confirmpass.getText().equals("")||newpass.getText().equals("")){
                 
                  Dialog.show("Warning", "Confirmer votre mot de passe correctement ! ", "OK", null);
