@@ -37,7 +37,7 @@ public class ProfilClient extends Form {
                 Toolbar tb = this.getToolbar();
 Image icon = theme.getImage("icon.png"); 
 Container topBar = BorderLayout.east(new Label(icon));
-topBar.add(BorderLayout.SOUTH, new Label("Cool App Tagline...", "SidemenuTagline")); 
+topBar.add(BorderLayout.SOUTH, new Label("JobTopia", "SidemenuTagline")); 
 topBar.setUIID("SideCommand");
 tb.addComponentToSideMenu(topBar);
 
@@ -46,6 +46,11 @@ tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> { new List
 tb.addMaterialCommandToSideMenu("Offres", FontImage.MATERIAL_WEB, e -> { 
  
     new AcceuilOffreForm().show();
+    // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+});
+tb.addMaterialCommandToSideMenu("Conventions", FontImage.MATERIAL_SETTINGS, e -> { 
+ 
+    new HomeConvention().show();
     // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
 });
 tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> { 

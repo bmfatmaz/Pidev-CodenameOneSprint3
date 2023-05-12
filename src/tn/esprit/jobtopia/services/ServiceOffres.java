@@ -56,6 +56,7 @@ public class ServiceOffres {
         JSONParser parser = new JSONParser();
         try {
             Map<String, Object> offreMap = parser.parseJSON(new CharArrayReader(json.toCharArray()));
+             float id = Float.parseFloat(offreMap.get("id").toString());
             String titre = (String) offreMap.get("titre");
             String description = (String) offreMap.get("description");
             String skill1 = (String) offreMap.get("skill1");
@@ -63,7 +64,7 @@ public class ServiceOffres {
             String skill3 = (String) offreMap.get("skill3");
             String categorie = (String) offreMap.get("categorie");
          
-          
+            fr.setId((int)id);
             fr.setTitre(titre);
             fr.setDescription(description);
             fr.setSkill1(skill1);

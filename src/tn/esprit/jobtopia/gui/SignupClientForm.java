@@ -34,13 +34,6 @@ import com.codename1.util.StringUtil;
 import com.twilio.Twilio;
 import com.twilio.rest.lookups.v1.PhoneNumber;
 //import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -148,7 +141,7 @@ public class SignupClientForm extends Form {
                         f.setImagePath(selectedImage);
 
                         Boolean aj = su.Ajout(f);
-                        Session session;
+                        
                         Dialog.show("Warning", "Profil  Ajouté ! ", "OK", null);
                        
 //              String from = "fatmazahra.benhajminiaoui@esprit.tn";

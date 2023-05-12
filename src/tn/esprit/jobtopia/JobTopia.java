@@ -13,6 +13,9 @@ import com.codename1.ui.Toolbar;
 import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
+import tn.esprit.jobtopia.gui.AjouterConventionForm;
+import tn.esprit.jobtopia.gui.HomeConvention;
+import tn.esprit.jobtopia.gui.ListeConventionForm;
 
 import tn.esprit.jobtopia.gui.ListFreelancerForm;
 import tn.esprit.jobtopia.gui.LoginForm;
@@ -51,8 +54,13 @@ public class JobTopia {
     }
     
     public void start() {
+
         new LoginForm().show();
 
+
+        //new AjouterConventionForm(current).show();
+        //new ListeConventionForm(1).show();
+      
     }
 
     public void stop() {

@@ -4,6 +4,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/res/theme.xml</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ModifierOffreForm.java</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/nbproject/private/private.xml</file>
@@ -16,6 +17,17 @@
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/services/ServiceUser.java</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/services/ServiceOffres.java</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ListFreelancerForm.java</file>
+
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/JobTopia.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/gui/HomeConvention.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/services/ServiceConvention.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/gui/HomeFreelancer.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/gui/ListeConventionForm.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/gui/AjouterConventionForm.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/gui/QRCode.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/gui/ModifierConventionForm.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/Codename/Pidev-CodenameOneSprint3/src/tn/esprit/jobtopia/gui/ListeConventionFreelancer.java</file>
+
         </group>
     </open-files>
 </project-private>
