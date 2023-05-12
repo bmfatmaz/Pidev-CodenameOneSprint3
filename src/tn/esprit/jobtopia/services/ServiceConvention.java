@@ -44,36 +44,51 @@ public class ServiceConvention {
         return instance;
     }
 
-    public boolean addConvention(Convention convention) {
-    String projectName = convention.getProjectName();
-    String startDate = formatDate(convention.getStartDate());
-    String endDate = formatDate(convention.getEndDate());
-    double paymentAmount = convention.getPaymentAmount();
+    public ArrayList<Convention> searchByProjectName(int clientId, String projectName) {
+        ArrayList<Convention> matchingConventions = new ArrayList<>();
 
-    String url = Connection.BASE_URL + "/conventions/json/new?projectName=" + projectName
-            + "&startDate=" + startDate + "&endDate=" + endDate
-            + "&paymentAmount=" + paymentAmount;
-
-    req.setUrl(url);
-    req.setPost(false);
-
-    req.addResponseListener(new ActionListener<NetworkEvent>() {
-        @Override
-        public void actionPerformed(NetworkEvent evt) {
-            resultOK = req.getResponseCode() == 200; // HTTP 200 OK
-            req.removeResponseListener(this);
+        ArrayList<Convention> allConventions = getConventionsByClientId(clientId); // Pass the clientId as an argument
+        for (Convention convention : allConventions) {
+            if (convention.getProjectName().toLowerCase().contains(projectName.toLowerCase())) {
+                matchingConventions.add(convention);
+            }
         }
-    });
 
-    NetworkManager.getInstance().addToQueueAndWait(req);
-    return resultOK;
-}
+        return matchingConventions;
+    }
 
+    public boolean addConvention(Convention convention) {
+        String projectName = convention.getProjectName();
+        String startDate = formatDate(convention.getStartDate());
+        String endDate = formatDate(convention.getEndDate());
+        double paymentAmount = convention.getPaymentAmount();
+        int freelancerId = convention.getFreelancerID();
+
+        String url = Connection.BASE_URL + "/conventions/json/new?projectName=" + projectName
+                + "&startDate=" + startDate + "&endDate=" + endDate
+                + "&paymentAmount=" + paymentAmount + "&freelancerId=" + freelancerId;
+
+        req.setUrl(url);
+        req.setPost(false);
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; // HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
 
     private String formatDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
+    
+    
 
     public Convention getConvention(int id) throws IOException {
         String url = "http://127.0.0.1:8000/getConventionJSON/" + id;

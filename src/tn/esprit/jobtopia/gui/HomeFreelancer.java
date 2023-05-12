@@ -12,22 +12,21 @@ import com.codename1.ui.layouts.BoxLayout;
 
 /**
  *
- * author ASUS
+ * @author ASUS
  */
-public class HomeConvention extends Form {
-    public HomeConvention() {
-        
+public class HomeFreelancer extends Form {
+
+    public HomeFreelancer() {
+
         setTitle("Accueil");
         setLayout(BoxLayout.y());
-        
+
         add(new Label("Bienvenue sur JobTopia"));
         Button btnListeConvention = new Button("Liste des Conventions");
-        Button btnAjoutConvention = new Button("Ajouter une Convention");
-        
+
         btnListeConvention.addActionListener(e -> new ListeConventionForm(1).show());
-        btnAjoutConvention.addActionListener(e -> new AjouterConventionForm(this).show());
-        
-        addAll(btnListeConvention, btnAjoutConvention);
+
+        addAll(btnListeConvention);
     }
-    
+
 }

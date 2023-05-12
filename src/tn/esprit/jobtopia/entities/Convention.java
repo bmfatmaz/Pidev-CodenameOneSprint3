@@ -134,6 +134,7 @@ public class Convention {
     public String getFreelancerUsername() {
         return freelancerUsername;
     }
+    
 
     public void setFreelancerUsername(String freelancerUsername) {
         this.freelancerUsername = freelancerUsername;

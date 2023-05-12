@@ -7,6 +7,7 @@ package tn.esprit.jobtopia.gui;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.io.CharArrayReader;
+import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
@@ -20,6 +21,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Stroke;
+import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
@@ -36,22 +38,47 @@ import javafx.scene.control.Separator;
 import tn.esprit.jobtopia.entities.Convention;
 import tn.esprit.jobtopia.services.ServiceConvention;
 import java.util.Date;
+import tn.esprit.jobtopia.services.Connection;
 
 public class ListeConventionForm extends Form {
 
     public static int conventionId;
+    private int clientId;
 
     public ListeConventionForm(int clientId) {
+        this.clientId = clientId;
         Form previous = new Form();
         setTitle("Liste des conventions");
         setLayout(BoxLayout.y());
 
+        TextField tfSearch = new TextField("", "Search by project name");
+        add(tfSearch);
+        Button searchButton = new Button("Search");
+        add(searchButton);
+
+        // Search button ActionListener
+        searchButton.addActionListener(e -> {
+            String searchQuery = tfSearch.getText();
+            System.out.println(searchQuery);
+
+            ArrayList<Convention> matchingConventions = ServiceConvention.getInstance().searchByProjectName(clientId, searchQuery);
+            removeAll(); // Clear existing convention elements
+
+            for (Convention convention : matchingConventions) {
+                addElement(convention);
+            }
+
+            revalidate();
+        });
+
+        // Retrieve and display conventions
         ArrayList<Convention> clientConventions = ServiceConvention.getInstance().getConventionsByClientId(clientId);
         for (Convention convention : clientConventions) {
             addElement(convention);
         }
 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
+        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> new HomeConvention().show());
+    
     }
 
     //Convention convention = ServiceConvention.getInstance().getConventionsById(conventionId);
@@ -78,33 +105,60 @@ public class ListeConventionForm extends Form {
         Label etatLabel = new Label("Etat: " + c.getEtat());
         conventionContainer.add(etatLabel);
         add(conventionContainer);
+        
 
-        Button detailsButton = new Button("Détails");
+        Button detailsButton = new Button("Actions");
         conventionContainer.add(detailsButton);
         detailsButton.addActionListener(e -> {
-    // Show dialog with buttons
-    Dialog dialog = new Dialog("Détails");
+            
+            Dialog dialog = new Dialog("Actions");
 
-    // Add modify button
-    Button modifyButton = new Button("Modifier");
-    modifyButton.addActionListener(modifyEvent -> {
-        // Handle modify event
-        dialog.dispose();
-    });
-    dialog.add(modifyButton);
+            
+           
 
-    // Add delete button
-    Button deleteButton = new Button("Supprimer");
-    deleteButton.addActionListener(deleteEvent -> {
-        // Handle delete event
-        dialog.dispose();
-    });
-    dialog.add(deleteButton);
+             Button deleteButton = new Button("Supprimer");
+            deleteButton.addActionListener(deleteEvent -> {
+                
+                dialog.dispose();
 
-    // Show dialog
-    dialog.show();
-});
-        
+               
+                deleteConvention(c.getId());
+            });
+            dialog.add(deleteButton);
+
+           
+            dialog.show();
+        });
+
     }
 
+    private void deleteConvention(int conventionId) {
+        if (Dialog.show("Confirmation", "Voulez-vous supprimer cette convention ?", "Oui", "Non")) {
+         String url = Connection.BASE_URL +  "/deleteConventionJSON/" + conventionId;
+
+        ConnectionRequest request = new ConnectionRequest();
+        request.setUrl(url);
+        request.setHttpMethod("DELETE");
+
+        NetworkManager.getInstance().addToQueueAndWait(request);
+
+        if (request.getResponseCode() == 200) {
+            refreshConventionList(clientId);
+        } else {
+            // Failed to delete convention
+            // Handle the error condition
+        }
+    }
+    }
+    public void refreshConventionList(int clientId) {
+        removeAll(); // Clear existing convention elements
+
+        ArrayList<Convention> clientConventions = ServiceConvention.getInstance().getConventionsByClientId(clientId);
+        for (Convention convention : clientConventions) {
+            addElement(convention);
+        }
+
+        revalidate(); // Revalidate the form to update the UI
+    }
+    
 }
