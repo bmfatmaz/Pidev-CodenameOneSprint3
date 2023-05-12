@@ -32,14 +32,18 @@ public class LoginForm extends Form {
         setTitle("Login Form");
         setLayout(new FlowLayout(CENTER, CENTER));
 
-        TextField tfUsername = new TextField("", "Email here...");
-        TextField tfPwd = new TextField("", "Password here...", 0, TextField.PASSWORD);
+        TextField tfUsername = new TextField("", "Username");
+        TextField tfPwd = new TextField("", "Password", 0, TextField.PASSWORD);
         Button btnLogin = new Button("Se connecter");
         Container cn = new Container(BoxLayout.y());
 
         btnLogin.addActionListener(e -> {
             ServiceUser su = new ServiceUser();
             try {
+//                if(tfUsername.getText()=="" ||tfPwd.getText()==""){
+//                    Dialog.show("Warning", "Pseudo et mot de passe sont obligatoires! ", "OK", null);
+//                }
+                
                 User user = su.login(tfUsername.getText(), tfPwd.getText());
                 if (user.getId() != 0) {
                    
@@ -75,8 +79,12 @@ public class LoginForm extends Form {
               //  Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+          Button mdp = new Button("mot de passe oublié");
+          mdp.addActionListener(e -> {
+              new EnterUsername().show(); // Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        });
 
-        cn.addAll(tfUsername, tfPwd, btnLogin,btn,btnC);
+        cn.addAll(tfUsername, tfPwd, btnLogin,btn,btnC,mdp);
         add(cn);
     }
 

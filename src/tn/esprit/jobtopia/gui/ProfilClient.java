@@ -80,7 +80,7 @@ tb.addMaterialCommandToSideMenu("Déconnecter", FontImage.MATERIAL_INFO, e -> { 
             String urlMark = "http://localhost/" + c.getImagePath();
 
             EncodedImage enc = EncodedImage.createFromImage(Image.createImage(300, 300, 0xffff0000), true);
-            Image img = URLImage.createToStorage(enc, "pdpcl.png", urlMark);
+            Image img = URLImage.createToStorage(enc, "pdp"+(CurrentUser.getInstance().getId()+5)+"cl.png", urlMark);
 
             ImageViewer imgProfilePic = new ImageViewer(img);
 

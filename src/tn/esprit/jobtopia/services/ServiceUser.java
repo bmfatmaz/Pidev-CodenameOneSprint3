@@ -11,12 +11,14 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
+import com.twilio.Twilio;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import tn.esprit.jobtopia.entities.Freelancer;
 import tn.esprit.jobtopia.entities.User;
+import tn.esprit.jobtopia.gui.EnterCodeForm;
 import tn.esprit.jobtopia.gui.ListFreelancerForm;
 
 /**
@@ -105,6 +107,195 @@ NetworkManager.getInstance().addToQueueAndWait(req);
 
         return tasks;
     }
+     public Freelancer getFreelancer(int id) throws IOException {
+        String url = "http://127.0.0.1:8000/UserJson/" + id;
+        req.setUrl(url);
+        req.setPost(false);
+        Freelancer fr = new Freelancer();
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                String json = new String(req.getResponseData());
+                JSONParser parser = new JSONParser();
+                try {
+                    Map<String, Object> freelancerMap = parser.parseJSON(new CharArrayReader(json.toCharArray()));
+                    String nom = (String) freelancerMap.get("nom");
+                    String prenom = (String) freelancerMap.get("prenom");
+                    String email = (String) freelancerMap.get("email");
+                    String description = (String) freelancerMap.get("description");
+                    String categorie = (String) freelancerMap.get("categorie");
+                    String Telephone = (String) freelancerMap.get("telephone");
+
+                     float salaire = (float) Math.floor((double) freelancerMap.get("salaire"));
+                    
+                    String photoData = (String) freelancerMap.get("imagepath");
+
+                    fr.setNom(nom);
+                    fr.setPrenom(prenom);
+                    fr.setEmail(email);
+                    fr.setDescription(description);
+                    fr.setImagePath(photoData);
+                    fr.setCategorie(categorie);
+                    fr.setTelephone(Telephone);
+                    fr.setSalaire(salaire);
+
+                    System.out.println(fr);
+                    // do something with the freelancer object
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return fr;
+    }
+
+    public Freelancer validateUsername(String username) throws IOException {
+        String url = "http://127.0.0.1:8000/UsernameValidate?username=" + username;
+        req.setUrl(url);
+        req.setPost(false);
+        Freelancer fr = new Freelancer();
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                String json = new String(req.getResponseData());
+                JSONParser parser = new JSONParser();
+                try {
+                    Map<String, Object> freelancerMap = parser.parseJSON(new CharArrayReader(json.toCharArray()));
+                    String nom = (String) freelancerMap.get("nom");
+                    String prenom = (String) freelancerMap.get("prenom");
+                    String email = (String) freelancerMap.get("email");
+                  //  String description = (String) freelancerMap.get("description");
+                 //   String categorie = (String) freelancerMap.get("categorie");
+                    String Telephone = (String) freelancerMap.get("telephone");
+
+                    // float salaire = (float) Math.floor((double) freelancerMap.get("salaire"));
+                      int id = (int) Math.floor((double) freelancerMap.get("id"));
+                     String code = (String) freelancerMap.get("codepassword");
+                    String photoData = (String) freelancerMap.get("imagepath");
+                    EnterCodeForm.code=code;
+                    EnterCodeForm.id=id;
+                    fr.setId(id);
+                    fr.setNom(nom);
+                    fr.setPrenom(prenom);
+                    fr.setEmail(email);
+                 //   fr.setDescription(description);
+                    fr.setImagePath(photoData);
+                 //   fr.setCategorie(categorie);
+                    fr.setTelephone(Telephone);
+                  //  fr.setSalaire(salaire);
+
+                    System.out.println(fr);
+                    // do something with the freelancer object
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return fr;
+    }
+      public Boolean confirm(int id) throws IOException {
+        String url = "http://127.0.0.1:8000/confJSON/new?id=" + id;
+        req.setUrl(url);
+        req.setPost(false);
+        Freelancer fr = new Freelancer();
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                String json = new String(req.getResponseData());
+                JSONParser parser = new JSONParser();
+                try {
+                    Map<String, Object> freelancerMap = parser.parseJSON(new CharArrayReader(json.toCharArray()));
+                    String nom = (String) freelancerMap.get("nom");
+                    String prenom = (String) freelancerMap.get("prenom");
+                    String email = (String) freelancerMap.get("email");
+                  //  String description = (String) freelancerMap.get("description");
+                 //   String categorie = (String) freelancerMap.get("categorie");
+                    String Telephone = (String) freelancerMap.get("telephone");
+
+                    // float salaire = (float) Math.floor((double) freelancerMap.get("salaire"));
+                      int id = (int) Math.floor((double) freelancerMap.get("id"));
+                     String code = (String) freelancerMap.get("codepassword");
+                    String photoData = (String) freelancerMap.get("imagepath");
+                    EnterCodeForm.code=code;
+                    EnterCodeForm.id=id;
+                    fr.setId(id);
+                    fr.setNom(nom);
+                    fr.setPrenom(prenom);
+                    fr.setEmail(email);
+                 //   fr.setDescription(description);
+                    fr.setImagePath(photoData);
+                 //   fr.setCategorie(categorie);
+                    fr.setTelephone(Telephone);
+                  //  fr.setSalaire(salaire);
+
+                    System.out.println(fr);
+                    // do something with the freelancer object
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return (fr==null);
+    }
+       public Boolean newPassword(String pass,int id) throws IOException {
+        String url = "http://127.0.0.1:8000/changePassword?id="+id+"&password="+pass;
+        req.setUrl(url);
+        req.setPost(false);
+        Freelancer fr = new Freelancer();
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                String json = new String(req.getResponseData());
+                JSONParser parser = new JSONParser();
+                try {
+                    Map<String, Object> freelancerMap = parser.parseJSON(new CharArrayReader(json.toCharArray()));
+                    String nom = (String) freelancerMap.get("nom");
+                    String prenom = (String) freelancerMap.get("prenom");
+                    String email = (String) freelancerMap.get("email");
+                  //  String description = (String) freelancerMap.get("description");
+                 //   String categorie = (String) freelancerMap.get("categorie");
+                    String Telephone = (String) freelancerMap.get("telephone");
+
+                    // float salaire = (float) Math.floor((double) freelancerMap.get("salaire"));
+//                      int id = (int) Math.floor((double) freelancerMap.get("id"));
+                     String code = (String) freelancerMap.get("codepassword");
+                    String photoData = (String) freelancerMap.get("imagepath");
+                    
+                    EnterCodeForm.code=code;
+                    EnterCodeForm.id=id;
+                     
+                    fr.setId(id);
+                    fr.setNom(nom);
+                    fr.setPrenom(prenom);
+                    fr.setEmail(email);
+                 //   fr.setDescription(description);
+                    fr.setImagePath(photoData);
+                 //   fr.setCategorie(categorie);
+                    fr.setTelephone(Telephone);
+                  //  fr.setSalaire(salaire);
+
+                    System.out.println(fr);
+                    // do something with the freelancer object
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return (fr==null);
+    }
+    
 
     public ArrayList<Freelancer> parseFreelancer(String jsonText) {
         ArrayList<Freelancer> freelancers = new ArrayList<>();
@@ -125,7 +316,7 @@ NetworkManager.getInstance().addToQueueAndWait(req);
                 t.setNom(obj.get("nom").toString());
                 t.setPrenom(obj.get("prenom").toString());
                 t.setCategorie(obj.get("categorie").toString());
-
+                t.setCategorie(obj.get("categorie").toString());
                 freelancers.add(t);
             }
 

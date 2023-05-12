@@ -6,6 +6,7 @@
 package tn.esprit.jobtopia.gui;
 
 import com.codename1.components.ImageViewer;
+import com.codename1.io.Util;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
@@ -17,7 +18,10 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+
 import java.io.IOException;
+
+
 import static tn.esprit.jobtopia.JobTopia.theme;
 
 import tn.esprit.jobtopia.entities.CurrentUser;
@@ -112,7 +116,7 @@ tb.addMaterialCommandToSideMenu("About", FontImage.MATERIAL_INFO, e -> {});
             String urlMark = "http://localhost/" + fr.getImagePath();
 
             EncodedImage enc = EncodedImage.createFromImage(Image.createImage(300, 300, 0xffff0000), true);
-            Image img = URLImage.createToStorage(enc, "pdpfree.png", urlMark);
+            Image img = URLImage.createToStorage(enc, "pdp"+(CurrentUser.getInstance().getId()+5)+"free.png", urlMark);
 
             ImageViewer imgProfilePic = new ImageViewer(img);
 
@@ -153,6 +157,7 @@ tb.addMaterialCommandToSideMenu("About", FontImage.MATERIAL_INFO, e -> {});
 });
 
     }
+  
 }
 
 

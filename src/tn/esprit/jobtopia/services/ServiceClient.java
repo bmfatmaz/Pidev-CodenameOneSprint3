@@ -5,9 +5,11 @@
  */
 package tn.esprit.jobtopia.services;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
+import com.codename1.io.MultipartRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
@@ -80,22 +82,40 @@ public class ServiceClient {
         return c;
     }
        public Boolean Ajout(Client f) {
-        String url = "http://127.0.0.1:8000/ClientJson/add"+ "?nom="+f.getNom()+"&prenom="+f.getPrenom()+"&telephone="+f.getTelephone()+"&username="+f.getUsername()+"&email="+f.getEmail()+"&profession="+f.getProfession()+"&password="+f.getPassword();
-       System.out.println(url);
+        String url = "http://127.0.0.1:8000/ClientJson/add"+ "?nom="+f.getNom()+"&prenom="+f.getPrenom()+"&telephone="+f.getTelephone()+"&username="+f.getUsername()+"&email="+f.getEmail()+"&profession="+f.getProfession()+"&password="+f.getPassword()+ "&file=" + f.getImagePath();
+         MultipartRequest cr = new MultipartRequest();
+        cr.setFilename("file", "Item.jpg");
+        System.out.println(url);
         req.setUrl(url);
         req.setPost(true);
-        req.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
+        cr.setHttpMethod("POST");
+        cr.setUrl(url);
+        try {
+            cr.addData("file", f.getImagePath(), "image/png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        cr.addArgumentNoEncoding("nom", f.getNom());
+        cr.addArgumentNoEncoding("prenom", f.getPrenom());
+        cr.addArgumentNoEncoding("telephone", f.getTelephone());
+        cr.addArgumentNoEncoding("username", f.getUsername());
+        cr.addArgumentNoEncoding("email", f.getEmail());
+        cr.addArgumentNoEncoding("password", f.getPassword());
+        cr.addArgumentNoEncoding("image", f.getImagePath());
+        cr.addArgumentNoEncoding("profession", f.getProfession());
+
+        cr.addResponseListener(new ActionListener<NetworkEvent>() {
             public void actionPerformed(NetworkEvent evt) {
-               // ArrayList<Freelancer> tasks = parseFreelancer(new String(req.getResponseData()));
-                req.removeResponseListener(this);
+                resultOK = cr.getResponseCode() == 200; //Code HTTP 200 OK
+                cr.removeResponseListener(this);
+                // Handle the response from the server
             }
         });
-        NetworkManager.getInstance().addToQueueAndWait(req);
-    String rep= new String(req.getResponseData());
-
-        return true;
+        cr.setDisposeOnCompletion(new InfiniteProgress().showInfiniteBlocking());
+        NetworkManager.getInstance().addToQueueAndWait(cr);
+        return resultOK;
     }
+    
       public Boolean Modif(Client f) {
         String url = "http://127.0.0.1:8000/ClientJson/edit"+"?id="+f.getId()+ "&nom="+f.getNom()+"&prenom="+f.getPrenom()+"&telephone="+f.getTelephone()+"&email="+f.getEmail()+"&profession="+f.getProfession();
        System.out.println(url);

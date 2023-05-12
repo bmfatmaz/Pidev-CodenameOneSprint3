@@ -62,7 +62,8 @@ public class ServiceFreelancer {
                     String categorie = (String) freelancerMap.get("categorie");
                     String Telephone = (String) freelancerMap.get("telephone");
 
-                    //  float salaire = Float.parseFloat((String) freelancerMap.get("salaire"));
+                     float salaire = (float) Math.floor((double) freelancerMap.get("salaire"));
+                    
                     String photoData = (String) freelancerMap.get("imagepath");
 
                     fr.setNom(nom);
@@ -72,7 +73,7 @@ public class ServiceFreelancer {
                     fr.setImagePath(photoData);
                     fr.setCategorie(categorie);
                     fr.setTelephone(Telephone);
-                    //  fr.setSalaire(salaire);
+                    fr.setSalaire(salaire);
 
                     System.out.println(fr);
                     // do something with the freelancer object
@@ -103,9 +104,44 @@ public class ServiceFreelancer {
 
         return tasks;
     }
+      public ArrayList<Freelancer> Search(String search) {
+        String url = "http://127.0.0.1:8000/searchJson?search="+ search ;
+        System.out.println(url);
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                ArrayList<Freelancer> tasks = parseFreelancer(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        ArrayList<Freelancer> fr = parseFreelancer(new String(req.getResponseData()));
+
+        return fr;
+    }
 
     public Boolean Modif(Freelancer f) {
         String url = "http://127.0.0.1:8000/FreelancerJson/edit" + "?id=" + f.getId() + "&nom=" + f.getNom() + "&prenom=" + f.getPrenom() + "&telephone=" + f.getTelephone() + "&email=" + f.getEmail() + "&description=" + f.getDescription() + "&categorie=" + f.getCategorie();
+        System.out.println(url);
+        req.setUrl(url);
+        req.setPost(true);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                // ArrayList<Freelancer> tasks = parseFreelancer(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        String rep = new String(req.getResponseData());
+
+        return true;
+    }
+    
+    public Boolean Noter(int id,int value) {
+        String url = "http://127.0.0.1:8000/freelancerRate?value="+value+"&id="+id;
         System.out.println(url);
         req.setUrl(url);
         req.setPost(true);
@@ -190,12 +226,15 @@ public class ServiceFreelancer {
                 t.setImagePath(obj.get("imagepath").toString());
 
                 float id = Float.parseFloat(obj.get("id").toString());
+                 float note = Float.parseFloat(obj.get("note").toString());
+                  float nbAvis = Float.parseFloat(obj.get("nbavis").toString());
+                  t.setNote(note/nbAvis);
                 // t.setStatus(((int) Float.parseFloat(obj.get("status").toString())));
                 t.setId((int) id);
                 t.setNom(obj.get("nom").toString());
                 t.setPrenom(obj.get("prenom").toString());
                 t.setCategorie(obj.get("categorie").toString());
-
+              // System.out.println(id);
                 freelancers.add(t);
             }
 
