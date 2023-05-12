@@ -4,36 +4,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ModifClient.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/entities/Role.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/entities/Categorie.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/services/ServiceFreelancer.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ProfilClient.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/OffreClientForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ListOffreForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/DetailsOffreFrom.java</file>
-            <file>jar:file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/lib/CodenameOne_SRC.zip!/com/codename1/ui/Container.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/SignupClientForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ModifFreelancerForm.java</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/res/theme.xml</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ModifierOffreForm.java</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/nbproject/private/private.xml</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/JobTopia.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/SignupFreelancerForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/entities/CurrentUser.java</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/AjouterOffreForm.java</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/OffreClientForm.java</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ProfilClient.java</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/AcceuilOffreForm.java</file>
+            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ListOffreForm.java</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/services/ServiceUser.java</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/services/ServiceOffres.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/entities/Freelancer.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/entities/User.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/LoginForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ProfilFreelancer.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/AjouterOffreForm.java</file>
-            <file>jar:file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/lib/CodenameOne_SRC.zip!/com/codename1/ui/URLImage.java</file>
             <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ListFreelancerForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/AccueilFreelancerForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/services/ServiceClient.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/ModifierOffreForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/DetailsFreelancerForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/entities/Offre.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/gui/AcceuilOffreForm.java</file>
-            <file>file:/C:/Users/Administrateur/Documents/NetBeansProjects/JobTopiaCNM/src/tn/esprit/jobtopia/entities/Client.java</file>
         </group>
     </open-files>
 </project-private>

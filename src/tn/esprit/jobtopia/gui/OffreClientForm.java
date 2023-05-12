@@ -75,7 +75,11 @@ public class OffreClientForm extends Form {
                   
           }
 });
-        
+          Button candid = new Button("voir candidatures");
+        add(candid);
+        candid.addActionListener((ActionEvent e) -> {ListCandidatureForm.offreid=fr.getId();
+        new ListCandidatureForm().show();
+});
     Button btnSupp = new Button("Supprimer");
     add(btnSupp);
     Style style = btnSupp.getAllStyles();

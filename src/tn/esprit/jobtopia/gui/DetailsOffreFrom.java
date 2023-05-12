@@ -6,12 +6,17 @@
 package tn.esprit.jobtopia.gui;
 
 import com.codename1.ui.Button;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BoxLayout;
+import com.twilio.Twilio;
 import java.io.IOException;
+
 import tn.esprit.jobtopia.entities.Offre;
+import tn.esprit.jobtopia.entities.User;
 import tn.esprit.jobtopia.services.ServiceOffres;
+import tn.esprit.jobtopia.services.ServiceUser;
 
 /**
  *
@@ -44,7 +49,14 @@ public class DetailsOffreFrom extends Form {
         Button btnDetails = new Button("Postuler Facilement");
         add(btnDetails);
         
-      
+       btnDetails.addActionListener(e -> {
+           AddCandidatureForm.offreid=fr.getId();
+            try {
+                new AddCandidatureForm().show();
+            } catch (IOException ex) {
+            //    Logger.getLogger(DetailsOffreFrom.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
        // btnDetails.addActionListener(e -> {freelancerid=fr.getId();
         //        new AddItem(this).show()});
 
