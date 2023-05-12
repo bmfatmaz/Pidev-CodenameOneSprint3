@@ -14,11 +14,13 @@ import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
 import tn.esprit.jobtopia.gui.AjouterConventionForm;
+import tn.esprit.jobtopia.gui.ContactsForm;
 import tn.esprit.jobtopia.gui.HomeConvention;
 import tn.esprit.jobtopia.gui.ListeConventionForm;
 
 import tn.esprit.jobtopia.gui.ListFreelancerForm;
 import tn.esprit.jobtopia.gui.LoginForm;
+import tn.esprit.jobtopia.gui.MessageForm;
 
 
 /**

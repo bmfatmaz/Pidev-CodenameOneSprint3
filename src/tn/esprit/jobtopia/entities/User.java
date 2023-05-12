@@ -12,6 +12,7 @@ package tn.esprit.jobtopia.entities;
 public class User {
     
      private int id;  
+
     private String nom, prenom, username, password, email,role,code,imagePath,telephone;
 
 

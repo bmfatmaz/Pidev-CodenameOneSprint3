@@ -12,7 +12,7 @@ package tn.esprit.jobtopia.entities;
 public class CurrentUser {
       private static CurrentUser instance = null;
     private int id;
-    
+     
 
     private CurrentUser() {}
 

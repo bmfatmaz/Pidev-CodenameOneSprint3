@@ -54,7 +54,7 @@ public class ListOffreForm extends Form{
  Toolbar tb = this.getToolbar();
 Image icon = theme.getImage("icon.png"); 
 Container topBar = BorderLayout.east(new Label(icon));
-topBar.add(BorderLayout.SOUTH, new Label("Cool App Tagline...", "SidemenuTagline")); 
+topBar.add(BorderLayout.SOUTH, new Label("JobTopia", "SidemenuTagline")); 
 topBar.setUIID("SideCommand");
 tb.addComponentToSideMenu(topBar);
 
@@ -82,6 +82,11 @@ tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> {
                  
                  //Logger.getLogger(AccueilFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
              }
+});
+tb.addMaterialCommandToSideMenu("Contacts", FontImage.MATERIAL_SETTINGS, e -> { 
+ 
+    new ContactsForm().show();
+    // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
 });
 tb.addMaterialCommandToSideMenu("Déconnecter", FontImage.MATERIAL_INFO, e -> { new LoginForm().show();});
         

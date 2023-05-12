@@ -68,6 +68,10 @@ public class ListFreelancerForm extends Form {
  
     new HomeConvention().show();
     // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
+});tb.addMaterialCommandToSideMenu("Contacts", FontImage.MATERIAL_SETTINGS, e -> { 
+ 
+    new ContactsForm().show();
+    // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
 });
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> {
 
