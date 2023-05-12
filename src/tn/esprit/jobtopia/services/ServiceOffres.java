@@ -176,10 +176,12 @@ public ArrayList<Offre> parseOffre(String jsonText) {
 
     
     
+    
      public boolean Ajout(Offre o) {
-        String url = "http://127.0.0.1:8000/OffreJson/add"+ "?titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie()+"&clientId="+o.getClientId();
-       System.out.println(url);
+        String url = "http://127.0.0.1:8000/OffreJson/add"+ "?titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie()+"&clientId="+o.getClientId()+"&skill1="+o.getSkill1()+"&skill2="+o.getSkill2()+"&skill3="+o.getSkill3();
         req.setUrl(url);
+        System.out.println(url);
+    
         req.setPost(true);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -244,4 +246,20 @@ NetworkManager.getInstance().addToQueueAndWait(req);
 
         return fr;
     }
+           public boolean supprimerOffre(Offre o) {
+    String url = "http://127.0.0.1:8000/OffreJson/delete/" + o.getId();
+    System.out.println(url);
+    req.setUrl(url);
+    req.setHttpMethod("DELETE");
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            // Do something when the response is received
+            req.removeResponseListener(this);
+        }
+    });
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return true;
+}
+
     }

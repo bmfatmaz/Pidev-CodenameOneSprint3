@@ -12,6 +12,7 @@ package tn.esprit.jobtopia.gui;
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -23,10 +24,17 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import static tn.esprit.jobtopia.JobTopia.theme;
 import tn.esprit.jobtopia.entities.Offre;
 import tn.esprit.jobtopia.services.ServiceOffres;
@@ -122,8 +130,58 @@ tb.addMaterialCommandToSideMenu("Déconnecter", FontImage.MATERIAL_INFO, e -> { 
                   
           }
 });
+          Button btnQRCode = new Button("QR Code");
+add(btnQRCode);
+btnQRCode.addActionListener((ActionEvent e) -> {
+    offreid = fr.getId();
+    String qrCodeContent = "Titre: " + fr.getTitre() + "\n"
+            + "Description: " + fr.getDescription() + "\n"
+            + "Categorie: " + fr.getCategorie();
+
+    Image qrCodeImage = generateQRCode(qrCodeContent, 1000);
+    if (qrCodeImage != null) {
+        ImageViewer qrCodeImageViewer = new ImageViewer(qrCodeImage);
+        Dialog qrCodeDialog = new Dialog();
+        qrCodeDialog.setLayout(new BorderLayout());
+        qrCodeDialog.add(BorderLayout.CENTER, qrCodeImageViewer);
+
+        // Ajouter le bouton Annuler
+        Button btnCancel = new Button("Annuler");
+        btnCancel.addActionListener((ae) -> {
+            qrCodeDialog.dispose(); // Fermer la boîte de dialogue QR Code
+        });
+        qrCodeDialog.add(BorderLayout.SOUTH, btnCancel);
+
+        qrCodeDialog.show();
+    }
+});
+    }
+public Image generateQRCode(String content, int size) {
+    try {
+        Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, size, size, hints);
+
+        // Conversion du BitMatrix en image
+        int width = bitMatrix.getWidth();
+        int height = bitMatrix.getHeight();
+        int[] pixels = new int[width * height];
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = bitMatrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF;
+            }
+        }
+        Image image = Image.createImage(pixels, width, height);
+        return image;
+    } catch (WriterException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
 
     }
 
     
-}

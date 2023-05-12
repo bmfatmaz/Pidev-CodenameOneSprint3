@@ -48,8 +48,10 @@ Form previous = new AcceuilOffreForm();
 
        Picker datePicker = new Picker();
         datePicker.setType(Display.PICKER_TYPE_DATE);
-        TextField tfDsc = new TextField(fr.getDescription(),"Description");
-      
+        TextField tfDsc = new TextField(fr.getDescription(),"Description"); 
+         TextField tfsk1 = new TextField(fr.getSkill1(),"Skill1");
+           TextField tfsk2 = new TextField(fr.getSkill2(),"Skill2");
+             TextField tfsk3 = new TextField(fr.getSkill3(),"Skill3");
        
 
               //  TextField cat = new TextField(fr.getCategorie());
@@ -76,7 +78,9 @@ Form previous = new AcceuilOffreForm();
         f.setTitre(tfTitre.getText());
     f.setDescription(tfDsc.getText());
     f.setCategorie(categorie.getSelectedItem().toString());
-    
+      f.setSkill1(tfsk1.getText());
+      f.setSkill2(tfsk2.getText());
+      f.setSkill3(tfsk3.getText());
     f.setClientId(CurrentUser.getInstance().getId());
 
    if (f.getTitre().length() < 3) {
@@ -88,14 +92,28 @@ Form previous = new AcceuilOffreForm();
     } else if (f.getCategorie().isEmpty()) {
         Dialog.show("Warning", "Veuillez sélectionner une catégorie", "OK", null);
         categorie.getStyle().setFgColor(ColorUtil.BLUE);
-    } else {
-   
-        Boolean mod = su.Ajout(f);
-        Dialog.show("Success", "Offre ajoutée avec succès !", "OK", null);
-    }
+    
+    } else if (f.getSkill1().isEmpty()) {
+          Dialog.show("Warning", "Le compétence1 doit contenir au moins 3 caractères", "OK", null);
+        tfsk1.getStyle().setFgColor(ColorUtil.BLUE);
+    } else if (f.getSkill2().isEmpty()) {
+          Dialog.show("Warning", "Le compétence2 doit contenir au moins 3 caractères", "OK", null);
+        tfsk2.getStyle().setFgColor(ColorUtil.BLUE);
+         } else if (f.getSkill3().isEmpty()) {
+          Dialog.show("Warning", "Le compétence3 doit contenir au moins 3 caractères", "OK", null);
+        tfsk3.getStyle().setFgColor(ColorUtil.BLUE);
+         
+        } else {
+            Boolean mod = su.Ajout(f);
+            Dialog.show("Success", "Offre ajoutée avec succès !", "OK", null);
+            new OffreClientForm().show();
+        }
+
+    
 });
-        cn.addAll(tfTitre,tfDsc,categorie, btnLogin);
-        add(cn);        
+        
+       cn.addAll(tfTitre,tfDsc,categorie,tfsk1,tfsk2,tfsk3, btnLogin);
+        add(cn);
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
     }
    

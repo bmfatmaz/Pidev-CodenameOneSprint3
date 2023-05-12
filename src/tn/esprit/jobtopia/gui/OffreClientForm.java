@@ -6,10 +6,12 @@
 package tn.esprit.jobtopia.gui;
 
 import com.codename1.ui.Button;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.Style;
 import java.io.IOException;
 import java.util.ArrayList;
 import tn.esprit.jobtopia.entities.Offre;
@@ -73,5 +75,32 @@ public class OffreClientForm extends Form {
                   
           }
 });
+        
+    Button btnSupp = new Button("Supprimer");
+    add(btnSupp);
+    Style style = btnSupp.getAllStyles();
+    style.setFgColor(0xFF0000);
+    btnSupp.addActionListener((ActionEvent e) -> {
+        if (Dialog.show("Confirmation", "Voulez-vous vraiment supprimer cette offre ?", "Oui", "Non")) {
+            boolean success = ServiceOffres.getInstance().supprimerOffre(fr);
+            if (success) {
+                refreshList();
+            } else {
+                Dialog.show("Erreur", "Une erreur s'est produite lors de la suppression de l'offre", "OK", null);
+            }
+        }
+    });
 }
+
+
+public void refreshList() {
+    removeAll();
+    ArrayList<Offre> offres = ServiceOffres.getInstance().getTasks();
+    for (Offre o : offres) {
+        addElement(o);
+    }
+    revalidate();
+
+}
+    
 }
