@@ -71,11 +71,17 @@ public class DetailsCandidForm extends Form {
         Button btnModif = new Button ("Modifier");
         btnModif.addActionListener((ActionEvent e)->{
             DetailsCandidForm.n = c.getId();
+            try {
+                    new modifCandidature().show();
+
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
             
         });
         
         
-        addAll(readLettreBtn,btnSupp);
+        addAll(readLettreBtn,btnSupp,btnModif);
     }
 
 }

@@ -35,7 +35,7 @@ public class ListCandidatureForm extends Form {
         setTitle("Liste des candidatures");
         setLayout(BoxLayout.y());
 
-        ArrayList<Candidature> candidature = ServiceCandidature.getInstance().ShowAllCandidatures();
+        ArrayList<Candidature> candidature = ServiceCandidature.getInstance().ShowOffreCandid(cadidid);
         for (Candidature c : candidature) {
             addElement(c);
             Button btnDetail = new Button("Details");
@@ -46,7 +46,6 @@ public class ListCandidatureForm extends Form {
 
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
-
                 }
 
             });

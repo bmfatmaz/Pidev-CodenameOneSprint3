@@ -78,6 +78,42 @@ public class ServiceCandidature {
         return candid;
 
     }
+    public ArrayList<Candidature> ShowFreelancerCandid(int freelancerid) {
+
+        String url = "http://127.0.0.1:8000/listFreelancer/"+25;
+        req.setUrl(url);
+        req.setPost(false);
+        System.out.println(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent t) {
+                ArrayList<Candidature> candid = parseCandidature(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        ArrayList<Candidature> candid = parseCandidature(new String(req.getResponseData()));
+        return candid;
+
+    }
+    public ArrayList<Candidature> ShowOffreCandid(int offreid) {
+
+        String url = "http://127.0.0.1:8000/listOffre/"+2;
+        req.setUrl(url);
+        req.setPost(false);
+        System.out.println(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent t) {
+                ArrayList<Candidature> candid = parseCandidature(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        ArrayList<Candidature> candid = parseCandidature(new String(req.getResponseData()));
+        return candid;
+
+    }
 
     private ArrayList<Candidature> parseCandidature(String jsonText) {
         ArrayList<Candidature> candid = new ArrayList<>();
