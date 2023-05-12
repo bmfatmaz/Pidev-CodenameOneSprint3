@@ -10,16 +10,21 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import java.util.List;
 import com.codename1.ui.events.ActionListener;
 import com.esprit.entities.Offre;
 import com.esprit.gui.ListOffreForm;
 import com.esprit.gui.OffreClientForm;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+
 
 
 /**
@@ -113,7 +118,10 @@ NetworkManager.getInstance().addToQueueAndWait(req);
                     Offre o = new Offre();
                     float id = Float.parseFloat(obj.get("id").toString());
                     o.setId((int)id);
-                    o.setLogoPath(obj.get("logoPath").toString());
+                    if (obj.get("logoPath") != null) {
+    o.setLogoPath(obj.get("logoPath").toString());
+}
+
                     o.setTitre(obj.get("titre").toString());
                     o.setDescription(obj.get("description").toString());
                     o.setCategorie(obj.get("categorie").toString());   
@@ -127,7 +135,7 @@ NetworkManager.getInstance().addToQueueAndWait(req);
         return offres;
     }
   public ArrayList<Offre> getTasks() {
-    String url = "http://127.0.0.1:8000/users/offresClient/"+19;
+    String url = "http://127.0.0.1:8000/users/offresClient/"+52;
     req.setUrl(url);
     req.setPost(false);
 
@@ -176,9 +184,10 @@ public ArrayList<Offre> parseOffre(String jsonText) {
     
     
      public boolean Ajout(Offre o) {
-        String url = "http://127.0.0.1:8000/OffreJson/add"+ "?titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie()+"&clientId="+o.getClientId();
-       System.out.println(url);
+        String url = "http://127.0.0.1:8000/OffreJson/add"+ "?titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie()+"&clientId="+o.getClientId()+"&skill1="+o.getSkill1()+"&skill2="+o.getSkill2()+"&skill3="+o.getSkill3()+"&logoPath=" + o.getLogoPath();;
         req.setUrl(url);
+        System.out.println(url);
+    
         req.setPost(true);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -191,8 +200,8 @@ public ArrayList<Offre> parseOffre(String jsonText) {
 
         return true;
     }
-       public Boolean Modif(Offre o) {
-        String url = "http://127.0.0.1:8000/OffreJson/edit/"+"?id="+o.getId()+ "&titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie();
+   public Boolean Modif(Offre o) {
+        String url = "http://127.0.0.1:8000/OffreJson/edit"+"?id="+o.getId()+ "&titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie();
        System.out.println(url);
         req.setUrl(url);
         req.setPost(true);
@@ -208,6 +217,7 @@ public ArrayList<Offre> parseOffre(String jsonText) {
 
         return true;
     }
+
       public Offre getOffreBYid() throws IOException {
       String url = "http://127.0.0.1:8000/users/offres/" + OffreClientForm.offreid;
       System.out.println(OffreClientForm.offreid);
@@ -230,7 +240,7 @@ public ArrayList<Offre> parseOffre(String jsonText) {
             fr.setTitre(titre);
             fr.setDescription(description);
             fr.setCategorie(categorie);
-
+            fr.setClientId(52);
 
             System.out.println(fr);
         } catch (IOException ex) {
@@ -243,4 +253,76 @@ NetworkManager.getInstance().addToQueueAndWait(req);
 
         return fr;
     }
+      public boolean supprimerOffre(Offre o) {
+    String url = "http://127.0.0.1:8000/OffreJson/delete/" + o.getId();
+    System.out.println(url);
+    req.setUrl(url);
+    req.setHttpMethod("DELETE");
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            // Do something when the response is received
+            req.removeResponseListener(this);
+        }
+    });
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return true;
+}
+
+public boolean offreExists(String titre) {
+    String url = "http://127.0.0.1:8000/offreExists/" + titre;
+    System.out.println(url);
+    req.setUrl(url);
+    req.setHttpMethod("GET");
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+           
+            req.removeResponseListener(this);
+        }
+    });
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return false; 
+}
+public ArrayList<Offre> getSimilarOffres(String categorie ) {
+    String url = "http://127.0.0.1:8000/OffreJson/similar/" + categorie;
+    ConnectionRequest request = new ConnectionRequest();
+    request.setUrl(url);
+    request.setHttpMethod("GET");
+    request.setContentType("application/json");
+
+    ArrayList<Offre> offres = new ArrayList<>();
+
+    request.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            try {
+                JSONParser parser = new JSONParser();
+                Map<String, Object> response = parser.parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
+                ArrayList<Map<String, Object>> offresList = (ArrayList<Map<String, Object>>) response.get("offres");
+                for (Map<String, Object> offreMap : offresList) {
+                    Offre offre = new Offre();
+                    offre.setId((int) offreMap.get("id"));
+                    offre.setTitre((String) offreMap.get("titre"));
+                    offre.setDescription((String) offreMap.get("description"));
+                    offre.setCategorie((String) offreMap.get("categorie"));
+                    offre.setClientId((int) offreMap.get("clientId"));
+                    offre.setSkill1((String) offreMap.get("skill1"));
+                    offre.setSkill2((String) offreMap.get("skill2"));
+                    offre.setSkill3((String) offreMap.get("skill3"));
+                    offre.setLogoPath((String) offreMap.get("logoPath"));
+                    offres.add(offre);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    });
+    NetworkManager.getInstance().addToQueueAndWait(request);
+
+    return offres;
+}
+
+
+
     }

@@ -12,8 +12,10 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
 import com.esprit.entities.Offre;
 import static com.esprit.gui.ListOffreForm.offreid;
+import static com.esprit.gui.OffreClientForm.offreid;
 import com.esprit.services.ServiceOffres;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +23,7 @@ import java.io.IOException;
  */
 public class DetailsOffreFrom extends Form {
         static int n;
+         public static int offreid;
     public DetailsOffreFrom() throws IOException {
            n=n+1;
         Form previous = new ListOffreForm();
@@ -45,12 +48,14 @@ public class DetailsOffreFrom extends Form {
         add("Compétence3:    " +fr.getSkill3());
         Button btnDetails = new Button("Postuler Facilement");
         add(btnDetails);
-        
-      
-       // btnDetails.addActionListener(e -> {freelancerid=fr.getId();
-        //        new AddItem(this).show()});
+         Button btnSimilaires = new Button("Consultez les offres Similaires");
+        add(btnSimilaires);
+       btnSimilaires.addActionListener((ActionEvent e) -> {
+    String categorie = fr.getCategorie();
+    ArrayList<Offre> offresSimilaires = ServiceOffres.getInstance().getSimilarOffres(categorie);
+    new OffresSimilairesForm(offresSimilaires).show();
+});
+
 
     }
-
-    }
-    
+}

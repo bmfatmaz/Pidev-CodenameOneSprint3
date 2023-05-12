@@ -42,6 +42,9 @@ public class Offre {
         this.logoPath = logoPath;
     }
 
+    public Offre(int id, String titre, String description, String categorie, int clientId) {
+    }
+
    
     public String getEtat() {
         return Etat;

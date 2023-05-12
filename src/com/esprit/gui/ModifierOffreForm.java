@@ -15,7 +15,6 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.esprit.entities.Offre;
 import com.esprit.services.ServiceOffres;
 import java.io.IOException;
-
 /**
  *
  * @author Salma Majeri
@@ -38,7 +37,7 @@ public ModifierOffreForm(int offreId) throws IOException {
        
     btnLogin.addActionListener(e->{
         ServiceOffres su= new ServiceOffres();
-       // o.setId(ListOffreForm.offreid);
+       //o.setId(ListOffreForm.offreid);
         o.setTitre(tfTitre.getText());
         o.setDescription(tfDescription.getText());
         o.setCategorie(tfCatg.getText());
