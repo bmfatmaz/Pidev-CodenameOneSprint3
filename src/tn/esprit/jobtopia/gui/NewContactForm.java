@@ -27,16 +27,16 @@ public class NewContactForm extends Form {
 
     public NewContactForm() {
         setTitle("Nouveau Contact");
-
-        TextField receiverUsernameField = new TextField("", "Receiver username");
-        TextField messageField = new TextField("", "Message", 200, TextField.ANY);
+        
+        TextField receiverUsernameField = new TextField("", "Pseudo du Contact");
+        TextField messageField = new TextField("", "Votre Message", 200, TextField.ANY);
 
         Button addButton = new Button("Add Contact");
         addButton.addActionListener(evt -> {
             String receiverUsername = receiverUsernameField.getText();
             String message = messageField.getText();
             if (receiverUsername.isEmpty() || message.isEmpty()) {
-                Dialog.show("Error", "Please fill in all fields", "OK", null);
+                Dialog.show("Erreur", "Veuillez remplir tous les champs", "OK", null);
             } else {
                 ConnectionRequest request = new ConnectionRequest() {
                     @Override
@@ -45,15 +45,14 @@ public class NewContactForm extends Form {
                         Map<String, Object> response = parser.parseJSON(new InputStreamReader(input));
                         boolean success = (Boolean) response.get("success");
                         if (success) {
-                            Dialog.show("Success", "Contact added", "OK", null);
+                            Dialog.show("Succès", "Contact ajouté", "OK", null);
                             ContactsForm contactsForm = new ContactsForm();
                             contactsForm.show();
                         } else {
                             String message = (String) response.get("message");
-                            Dialog.show("Error", message, "OK", null);
+                            Dialog.show("Erreur", message, "OK", null);
                         }
                     }
-
                     @Override
                     protected void handleErrorResponseCode(int code, String message) {
                         Dialog.show("Error", "HTTP error: " + code + " " + message, "OK", null);
@@ -70,7 +69,7 @@ public class NewContactForm extends Form {
 
         addAll(receiverUsernameField, messageField, addButton);
 
-        Command backCommand = new Command("Back") {
+        Command backCommand = new Command("Retour") {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 ContactsForm contactsForm = new ContactsForm();

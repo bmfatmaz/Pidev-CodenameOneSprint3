@@ -70,8 +70,6 @@ public class ContactsForm extends Form {
 
             contactsContainer.add(contactContainer);
         }
-
-        // Add the contactsContainer to the CENTER of the ContactsForm
         add(BorderLayout.CENTER, contactsScrollContainer);
         contactsScrollContainer.getAllStyles().setPadding(10, 10, 10, 10);
         contactsScrollContainer.getAllStyles().setBgTransparency(255);

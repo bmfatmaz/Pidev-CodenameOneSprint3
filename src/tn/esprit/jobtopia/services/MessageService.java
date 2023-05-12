@@ -54,7 +54,6 @@ public class MessageService {
                     contacts.add(c);
                 }
             }
-
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -76,5 +75,6 @@ public class MessageService {
         NetworkManager.getInstance().addToQueueAndWait(request);
         return contacts;
     }
-
+    
+    
 }

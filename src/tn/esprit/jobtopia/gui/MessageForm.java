@@ -52,13 +52,9 @@ public class MessageForm extends Form {
         Container messagesContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         messagesScrollContainer.add(messagesContainer);
         messagesScrollContainer.setScrollableY(true);
-
-        // Add a loading spinner
         Container spinnerContainer = new Container(new FlowLayout(CENTER));
         spinnerContainer.add(new InfiniteProgress());
         messagesContainer.add(spinnerContainer);
-
-        // Fetch the messages
         ConnectionRequest connectionRequest = new ConnectionRequest() {
             @Override
             protected void readResponse(InputStream input) throws IOException {
@@ -66,23 +62,18 @@ public class MessageForm extends Form {
                 Map<String, Object> parsed = parser.parseJSON(new InputStreamReader(input, "UTF-8"));
                 List<Map<String, Object>> messagesList = (List<Map<String, Object>>) parsed.get("messages");
                 System.out.println("messagesList: " + messagesList);
-                // Remove the spinner
                 messagesContainer.removeComponent(spinnerContainer);
-
-                // Add the messages to the UI
                 for (Map<String, Object> messageMap : messagesList) {
                     String messageText = (String) messageMap.get("contenu");
                     int receiverId = ((Map<String, Double>) messageMap.get("receiverid")).get("id").intValue();
                     String dateHeure = (String) messageMap.get("dateHeure");
-
                     Label messageLabel = new Label(messageText);
-                    messageLabel.setUIID("MessageLabel"); // set a custom UIID for styling
+                    messageLabel.setUIID("MessageLabel"); 
                     Label dateLabel = new Label(dateHeure);
-                    dateLabel.setUIID("DateLabel"); // set a custom UIID for styling
+                    dateLabel.setUIID("DateLabel"); 
                     Container messageContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
                     messageContainer.add(messageLabel);
                     messageContainer.add(dateLabel);
-
                     if (receiverId != contact.getId()) {
                         messageLabel.getAllStyles().setAlignment(Component.LEFT);
                         messageLabel.getAllStyles().setBgColor(0xE6E6E6);
@@ -96,7 +87,6 @@ public class MessageForm extends Form {
                     } else {
                         messageLabel.getAllStyles().setAlignment(Component.RIGHT);
                         messageLabel.getAllStyles().setBgColor(0x4da6ff);
-                        //messageLabel.getAllStyles().setFgColor(0xFFFFFF);
                         messageLabel.getAllStyles().setPadding(5, 5, 5, 5);
                         messageLabel.getAllStyles().setMargin(0, 0, 5, 10);
                         dateLabel.getAllStyles().setFgColor(0x777777);
@@ -105,47 +95,41 @@ public class MessageForm extends Form {
                         dateLabel.getAllStyles().setMargin(0, 0, 5, 0);
                         dateLabel.getAllStyles().setAlignment(Component.RIGHT);
                     }
-
                     messagesContainer.add(messageContainer);
-
                 }
                 Component lastMessage = messagesContainer.getComponentAt(messagesContainer.getComponentCount() - 1);
                 messagesContainer.scrollComponentToVisible(lastMessage);
-                // Revalidate the UI to ensure that it is redrawn with the messages
                 messagesContainer.revalidate();
             }
 
             @Override
             protected void handleErrorResponseCode(int code, String message) {
-                Dialog.show("Error", message, "OK", null);
+                Dialog.show("Erreur", message, "OK", null);
             }
         };
-
         connectionRequest.setUrl("http://127.0.0.1:8000/messagesJson/" + contact.getId());
         connectionRequest.setPost(false);
         connectionRequest.addRequestHeader("Accept", "application/json");
         connectionRequest.addRequestHeader("Content-Type", "application/json");
         NetworkManager.getInstance().addToQueue(connectionRequest);
-
         setLayout(new BorderLayout());
-
         add(BorderLayout.CENTER, messagesScrollContainer);
         messagesScrollContainer.getAllStyles().setPadding(10, 10, 10, 10);
         messagesScrollContainer.getAllStyles().setBgTransparency(255);
         messagesScrollContainer.getAllStyles().setBgColor(0xf2f2f2);
-
         Container inputContainer = new Container(new BorderLayout());
-        TextField inputTextField = new TextField("", "Type your message here");
+        TextField inputTextField = new TextField("", "Ecrire votre message ici ...");
         inputContainer.add(BorderLayout.CENTER, inputTextField);
 
-        // Create a button to send the message
         Button sendButton = new Button("Envoyer");
         sendButton.addActionListener(evt -> {
             String message = inputTextField.getText().trim();
             if (!message.isEmpty()) {
-                ConnectionRequest sendRequest = new ConnectionRequest() { // Rename the variable here
+                
+                ConnectionRequest sendRequest = new ConnectionRequest() { 
                     @Override
                     protected void handleErrorResponseCode(int code, String message) {
+                        message="Ce message contient un mauvais mot!";
                         Dialog.show("Error", message, "OK", null);
                     }
 
@@ -160,7 +144,6 @@ public class MessageForm extends Form {
 
                             @Override
                             protected void readResponse(InputStream input) throws IOException {
-                                // Handle the response from the server here, if needed
                                 JSONParser parser = new JSONParser();
                                 Map<String, Object> parsed = parser.parseJSON(new InputStreamReader(input, "UTF-8"));
                                 List<Map<String, Object>> messagesList = (List<Map<String, Object>>) parsed.get("messages");
@@ -172,9 +155,9 @@ public class MessageForm extends Form {
                                     String dateHeure = (String) messageMap.get("dateHeure");
 
                                     Label messageLabel = new Label(messageText);
-                                    messageLabel.setUIID("MessageLabel"); // set a custom UIID for styling
+                                    messageLabel.setUIID("MessageLabel"); 
                                     Label dateLabel = new Label(dateHeure);
-                                    dateLabel.setUIID("DateLabel"); // set a custom UIID for styling
+                                    dateLabel.setUIID("DateLabel");
                                     Container messageContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
                                     messageContainer.add(messageLabel);
                                     messageContainer.add(dateLabel);
@@ -192,7 +175,6 @@ public class MessageForm extends Form {
                                     } else {
                                         messageLabel.getAllStyles().setAlignment(Component.RIGHT);
                                         messageLabel.getAllStyles().setBgColor(0x4da6ff);
-                                        //messageLabel.getAllStyles().setFgColor(0xFFFFFF);
                                         messageLabel.getAllStyles().setPadding(5, 5, 5, 5);
                                         messageLabel.getAllStyles().setMargin(0, 0, 5, 10);
                                         dateLabel.getAllStyles().setFgColor(0x777777);
@@ -201,13 +183,11 @@ public class MessageForm extends Form {
                                         dateLabel.getAllStyles().setMargin(0, 0, 5, 0);
                                         dateLabel.getAllStyles().setAlignment(Component.RIGHT);
                                     }
-
                                     messagesContainer.add(messageContainer);
                                 }
                                 messagesContainer.revalidate();
                             }
                         };
-
                         reloadRequest.setUrl("http://127.0.0.1:8000/messagesJson/" + contact.getId());
                         reloadRequest.setPost(false);
                         reloadRequest.addRequestHeader("Accept", "application/json");
@@ -216,8 +196,6 @@ public class MessageForm extends Form {
                         inputTextField.clear();
                     }
                 };
-
-                // Use the new variable name here
                 JSONObject postData = new JSONObject();
                 sendRequest.setUrl("http://127.0.0.1:8000/message/send-from-codename-one?receiverId=" + contact.getId() + "&message=" + message);
                 sendRequest.setPost(true);
@@ -228,11 +206,9 @@ public class MessageForm extends Form {
         });
 
         inputContainer.add(BorderLayout.EAST, sendButton);
-
-        // Add the input container to the bottom of the form
         add(BorderLayout.SOUTH, inputContainer);
 
-        Command backCommand = new Command("Back") {
+        Command backCommand = new Command("Retour") {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 ContactsForm contactsForm = new ContactsForm();
@@ -254,10 +230,8 @@ public class MessageForm extends Form {
 
                     @Override
                     protected void readResponse(InputStream input) throws IOException {
-                        // Handle the response from the server here, if needed
                     }
                 };
-
                 deleteRequest.setUrl("http://127.0.0.1:8000/message/deleteContact/" + contact.getId());
                 deleteRequest.setHttpMethod("DELETE");
                 deleteRequest.addRequestHeader("Accept", "application/json");
