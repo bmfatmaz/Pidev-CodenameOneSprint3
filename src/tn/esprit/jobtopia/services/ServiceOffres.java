@@ -193,7 +193,7 @@ public ArrayList<Offre> parseOffre(String jsonText) {
         return true;
     }
        public Boolean Modif(Offre o) {
-        String url = "http://127.0.0.1:8000/OffreJson/edit/"+"?id="+o.getId()+ "&titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie();
+        String url = "http://127.0.0.1:8000/OffreJson/edit"+"?id="+o.getId()+ "&titre="+o.getTitre()+"&description="+o.getDescription()+"&categorie="+o.getCategorie();
        System.out.println(url);
         req.setUrl(url);
         req.setPost(true);
