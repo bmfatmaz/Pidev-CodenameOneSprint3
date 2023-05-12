@@ -5,23 +5,18 @@
  */
 package tn.esprit.gui;
 
-import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
-import com.codename1.ui.CheckBox;
-import com.codename1.ui.ComboBox;
-import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.FlowLayout;
 import tn.esprit.entities.Candidature;
-import java.io.IOException;
-import java.util.Vector;
+import com.codename1.ext.filechooser.FileChooser;
+
 import tn.esprit.services.ServiceCandidature;
 
 /**
@@ -36,17 +31,31 @@ public class AddCandidatureForm extends Form {
         setTitle("Ajouter une candidature");
         setLayout(BoxLayout.y());
 
-        TextField tfLettreMotivation = new TextField("", "Lettre De Motivation");
+        TextArea tfLettreMotivation = new TextField("", "Lettre De Motivation");
         TextField tfOffreId = new TextField("", "offreID ");
         TextField tfFreelancerId = new TextField("", "freelancerID ");
-        CheckBox etat = new CheckBox("Etat");
-        Button fileSelectButton = new Button("Select File");
+        Button fileSelectButton = new Button("Select PDF");
         fileSelectButton.addActionListener(e -> {
-            Display.getInstance().openGallery((ActionListener) (ActionEvent evt) -> {
-                if (evt != null && evt.getSource() != null) {
-                    filePath = (String) evt.getSource();
-                }
-            }, Display.GALLERY_IMAGE);
+            if (FileChooser.isAvailable()) {
+                FileChooser.showOpenDialog(".pdf", e2 -> {
+                    String file = (String) e2.getSource();
+                    if (file == null) {
+                        Dialog.show("Error", "No file was selected", "OK", null);
+                    } else {
+                        String extension = null;
+                        if (file.lastIndexOf(".") > 0) {
+                            extension = file.substring(file.lastIndexOf(".") + 1);
+                        }
+                        if ("pdf".equals(extension)) {
+                            filePath = file;
+                            Dialog.show("Success", "Selected file: " + filePath, "OK", null);
+                        } else {
+                            Dialog.show("Error", "Invalid file selected. Please select a PDF file", "OK", null);
+                        }
+                    }
+                    
+                });
+            }
         });
 
         Button btnConfirmer = new Button("Confirmer la candidature");
@@ -78,11 +87,12 @@ public class AddCandidatureForm extends Form {
                     Dialog.show("Error", "Offre id non valide", "OK", null);
                     return; // exit the method
                 }
-                Candidature candidature = new Candidature(freelancerId, offreId, lettreMotivation, filePath);
+                String score = "";
+                Candidature candidature = new Candidature(offreId, freelancerId, lettreMotivation, filePath, score);
                 if (ServiceCandidature.getInstance().AjouterCandidature(candidature)) {
-                    Dialog.show("Success", "Candidature ajouté", "OK", null);
+                    Dialog.show("Error", "Request Error", "OK", null);
                 } else {
-                    Dialog.show("Error", "Request Error", "Ok", null);
+                    Dialog.show("Success", "Candidature ajouté", "Ok", null);
                 }
             }
         });
@@ -91,79 +101,7 @@ public class AddCandidatureForm extends Form {
             previous.showBack();
         });
 
-        addAll(tfFreelancerId, tfLettreMotivation, tfOffreId, fileSelectButton, etat, btnConfirmer);
+        addAll(tfFreelancerId, tfLettreMotivation, tfOffreId, fileSelectButton, btnConfirmer);
     }
-    /*public AddCandidatureForm() throws IOException {
-
-        setTitle("Ajout Form");
-        setLayout(new FlowLayout(CENTER, CENTER));
-        //  System.out.println(CurrentUser.getInstance().getId());
-        //      Freelancer fr = ServiceFreelancer.getInstance().getFreelancer(CurrentUser.getInstance().getId());
-
-        // TextField tfUsername = new TextField(fr.getUsername());
-        Candidature fr = new Candidature();
-        TextField tfLettreMotivation = new TextField(fr.getLettreMotivation(), "lettremotivation");
-        tfLettreMotivation.addDataChangedListener((int type, int index) -> {
-            String text = tfLettreMotivation.getText();
-
-        });
-
-//        Picker datePicker = new Picker();
-//        datePicker.setType(Display.PICKER_TYPE_DATE);
-        Button fileSelectButton = new Button("Select File");
-        fileSelectButton.addActionListener(e -> {
-            Display.getInstance().openGallery((ActionListener) (ActionEvent evt) -> {
-                if (evt != null && evt.getSource() != null) {
-                    filePath = (String) evt.getSource();
-                }
-            }, Display.GALLERY_IMAGE);
-        });
-        TextField tfOffreId = new TextField(Integer.toString(fr.getOfferID()));
-        tfOffreId .setHint("offreID");
-        TextField tfFreelancerID = new TextField(Integer.toString(fr.getfreelancerID()));
-        tfOffreId .setHint("FreelancerID");
-
-        //  TextField cat = new TextField(fr.getCategorie());
-        Vector<String> vectorCat;
-        vectorCat = new Vector();
-        vectorCat.add("");
-        vectorCat.add("WEB");
-        vectorCat.add("TRADUCTION");
-        vectorCat.add("DESIGN");
-        vectorCat.add("RECADTION");
-        vectorCat.add("AI");
-        vectorCat.add("PHOTOGRAPHIE");
-
-        ComboBox<String> categorie = new ComboBox<>(vectorCat);
-
-        Button btnLogin = new Button("Ajouter");
-        Container cn = new Container(BoxLayout.y());
-
-        btnLogin.addActionListener((ActionEvent e) -> {
-            ServiceCandidature su = new ServiceCandidature();
-            Candidature f = new Candidature();
-            String filePath = AddCandidatureForm.this.filePath;
-            int OffreId = Integer.parseInt(tfOffreId.getText());
-            int FreelancerID = Integer.parseInt(tfFreelancerID.getText());
-            f.setLettreMotivation(tfLettreMotivation.getText());
-            //f.setCv(filePath);
-            f.setOfferID(OffreId);
-            f.setfreelancerID(FreelancerID);
-            
-            if (f.getLettreMotivation().length() < 3) {
-                Dialog.show("Warning", "La lettre de motivation doit contenir au moins 3 caractères", "OK", null);
-                tfLettreMotivation.getStyle().setFgColor(ColorUtil.BLUE);
-            } else if (f.getCv().length() < 0) {
-                Dialog.show("Warning", "CV non valide ", "OK", null);
-                fileSelectButton.getStyle().setFgColor(ColorUtil.BLUE);
-            } else {
-
-                Boolean mod = su.Ajout(f);
-                Dialog.show("Success", "Offre ajoutée avec succès !", "OK", null);
-            }
-        });
-        cn.addAll(tfFreelancerID, tfOffreId, fileSelectButton, tfLettreMotivation, btnLogin);
-        add(cn);
-    }*/
 
 }

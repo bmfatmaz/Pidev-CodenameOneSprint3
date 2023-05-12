@@ -7,7 +7,9 @@ package tn.esprit.gui;
 
 import com.codename1.ui.Button;
 import com.codename1.ui.Form;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
+import java.io.IOException;
 
 /**
  *
@@ -16,19 +18,19 @@ import com.codename1.ui.layouts.BoxLayout;
 public class HomeCandidatureForm extends Form {
 
     public HomeCandidatureForm() {
-        
+
         setTitle("Home Page");
         setLayout(BoxLayout.y());
         Button btnAdd = new Button("Ajouter une candidature");
-        Button btnShow = new Button("Afficher la liste des candidatures"); 
-        
-        btnAdd.addActionListener((evt) -> {
+        Button btnShow = new Button("Afficher la liste des candidatures");
+        btnAdd.addActionListener((ActionEvent e) -> {
+            new AddCandidatureForm(this).show();           
+            
         });
-        btnShow.addActionListener((evt) -> {
-        });
-        
-        addAll(btnAdd,btnShow);
-        
+        btnShow.addActionListener((ActionEvent e) -> {
+                new ListCandidatureForm().show();
+            });
+        addAll(btnAdd, btnShow);
+
     }
-    
 }

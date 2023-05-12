@@ -19,6 +19,14 @@ public class Candidature {
         this.lettreMotivation = lettreMotivation;
         this.cv = cv;
     }
+    
+    public Candidature(int offerID, int freelancerID, String lettreMotivation, String cv, String Score) {
+        this.offerID = offerID;
+        this.freelancerID = freelancerID;
+        this.lettreMotivation = lettreMotivation;
+        this.cv = cv;
+        this.score = score;
+    }
 
     public Candidature(String LettreMotivation, String cv) {
         
