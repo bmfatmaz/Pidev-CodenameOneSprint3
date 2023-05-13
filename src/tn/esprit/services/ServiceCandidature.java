@@ -78,9 +78,10 @@ public class ServiceCandidature {
         return candid;
 
     }
+
     public ArrayList<Candidature> ShowFreelancerCandid(int freelancerid) {
 
-        String url = "http://127.0.0.1:8000/listFreelancer/"+25;
+        String url = "http://127.0.0.1:8000/listFreelancer/" + 25;
         req.setUrl(url);
         req.setPost(false);
         System.out.println(url);
@@ -96,16 +97,39 @@ public class ServiceCandidature {
         return candid;
 
     }
+
     public ArrayList<Candidature> ShowOffreCandid(int offreid) {
 
-        String url = "http://127.0.0.1:8000/listOffre/"+2;
+        String url = "http://127.0.0.1:8000/listOffre/2";
         req.setUrl(url);
         req.setPost(false);
         System.out.println(url);
-        req.addResponseListener(new ActionListener<NetworkEvent>() {
+        Candidature c = new Candidature();
+        /*req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent t) {
                 ArrayList<Candidature> candid = parseCandidature(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });*/
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                String json = new String(req.getResponseData());
+                JSONParser parser = new JSONParser();
+                try {
+                    Map<String, Object> CandidatureMap = parser.parseJSON(new CharArrayReader(json.toCharArray()));
+                    String LettreMotivation = (String) CandidatureMap.get("lettremotivation");
+                    String etat = (String) CandidatureMap.get("etat");
+
+                    c.setLettreMotivation(LettreMotivation);
+                    c.setEtatID(etat);
+
+                    System.out.println(c);
+                    // do something with the freelancer object
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 req.removeResponseListener(this);
             }
         });
@@ -113,31 +137,6 @@ public class ServiceCandidature {
         ArrayList<Candidature> candid = parseCandidature(new String(req.getResponseData()));
         return candid;
 
-    }
-
-    private ArrayList<Candidature> parseCandidature(String jsonText) {
-        ArrayList<Candidature> candid = new ArrayList<>();
-        try {
-
-            JSONParser j = new JSONParser();
-            Map<String, Object> candidListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            System.out.println(candidListJson);
-            List<Map<String, Object>> list = (List<Map<String, Object>>) candidListJson.get("root");
-            for (Map<String, Object> obj : list) {
-                Candidature c = new Candidature();
-                float id = Float.parseFloat(obj.get("id").toString());
-                c.setId((int) id);
-                //c.setEtatID(obj.get("etat").toString());
-                c.setLettreMotivation(obj.get("lettremotivation").toString());
-                //String LettreMotivation = "null";
-                //String cv = obj.get("cv").toString();
-                //String Score = obj.get("score").toString();
-                candid.add(c);
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return candid;
     }
 
     public Candidature getOneCandidature(int id) throws IOException {
@@ -189,6 +188,39 @@ public class ServiceCandidature {
         NetworkManager.getInstance().addToQueue(request);
         return c;
     }
+    public boolean Refuser(int id) {
+        String url = "http://127.0.0.1:8000/refuser/" + id;
+        ConnectionRequest request = new ConnectionRequest();
+        request.setUrl(url);
+        request.setPost(true);
+        Candidature c = new Candidature();
+        request.addResponseListener((NetworkEvent evt) -> {
+            byte[] responseData = request.getResponseData();
+            if (responseData != null) {
+                String json = new String(responseData);
+            }
+        });
+
+        NetworkManager.getInstance().addToQueue(request);
+        return true;
+    }
+    public Candidature Accepter(int id) {
+        String url = "http://127.0.0.1:8000/accepter/" + id+"?etat=Accepté";
+        ConnectionRequest request = new ConnectionRequest();
+        request.setUrl(url);
+        request.setPost(true);
+        Candidature c = new Candidature();
+        System.out.println(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                req.removeResponseListener(this);
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return c;
+    }
 
     public boolean Del(int id) {
         String url = "http://127.0.0.1:8000/deleteCandidJSON/" + id;
@@ -212,11 +244,7 @@ public class ServiceCandidature {
         return true;
     }
 
-    private boolean handleUpdateResponse(String response) {
-        // Parse the response from the server to determine whether the update was successful
-        return true; // or false, depending on the response
-    }
-
+    /*
     public Boolean Modif(Candidature c) {
         String url = "http://127.0.0.1:8000/updateCandidJSON/edit" + "?id=" + c.getId() + "&lettremotivation=" + c.getLettreMotivation() + "&CV=" + c.getCv();
         System.out.println(url);
@@ -233,6 +261,47 @@ public class ServiceCandidature {
         String rep = new String(req.getResponseData());
 
         return true;
+    }*/
+    public Boolean Modif(Candidature c) {
+        String url = "http://127.0.0.1:8000/Candid/edit" + "?id=" + c.getId() + "&lettremotivation=" + c.getLettreMotivation();
+        System.out.println(url);
+        req.setUrl(url);
+        req.setPost(true);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        String rep = new String(req.getResponseData());
+
+        return true;
     }
 
+    private ArrayList<Candidature> parseCandidature(String jsonText) {
+        ArrayList<Candidature> candid = new ArrayList<>();
+        try {
+
+            JSONParser j = new JSONParser();
+            Map<String, Object> candidListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+            System.out.println(candidListJson);
+            List<Map<String, Object>> list = (List<Map<String, Object>>) candidListJson.get("root");
+            for (Map<String, Object> obj : list) {
+                Candidature c = new Candidature();
+                float id = Float.parseFloat(obj.get("id").toString());
+                c.setId((int) id);
+                //c.setEtatID(obj.get("etat").toString());
+                c.setLettreMotivation(obj.get("lettremotivation").toString());
+                //String LettreMotivation = "null";
+                //String cv = obj.get("cv").toString();
+                //String Score = obj.get("score").toString();
+                candid.add(c);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return candid;
+    }
 }

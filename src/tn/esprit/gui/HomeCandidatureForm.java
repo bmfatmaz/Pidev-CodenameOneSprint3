@@ -10,6 +10,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
 import java.io.IOException;
+import tn.esprit.entities.Candidature;
 
 /**
  *
@@ -21,16 +22,20 @@ public class HomeCandidatureForm extends Form {
 
         setTitle("Home Page");
         setLayout(BoxLayout.y());
+        Candidature c = new Candidature();
         Button btnAdd = new Button("Ajouter une candidature");
         Button btnShow = new Button("Afficher la liste des candidatures");
         btnAdd.addActionListener((ActionEvent e) -> {
-            new AddCandidatureForm(this).show();           
-            
+            new AddCandidatureForm().show();
+
         });
         btnShow.addActionListener((ActionEvent e) -> {
-                new ListCandidatureForm().show();
-            });
-        addAll(btnAdd, btnShow);
+
+            new ListCandidatureForm().show();
+
+        });
+        add(btnAdd);
+        add(btnShow);
 
     }
 }

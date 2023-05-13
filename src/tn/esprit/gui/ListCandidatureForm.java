@@ -28,14 +28,15 @@ import tn.esprit.services.ServiceCandidature;
 public class ListCandidatureForm extends Form {
 
     public static int cadidid;
-
+   
     public ListCandidatureForm() {
 
         Form previous = new HomeCandidatureForm();
         setTitle("Liste des candidatures");
         setLayout(BoxLayout.y());
 
-        ArrayList<Candidature> candidature = ServiceCandidature.getInstance().ShowOffreCandid(cadidid);
+        ArrayList<Candidature> candidature = ServiceCandidature.getInstance().ShowAllCandidatures();
+        
         for (Candidature c : candidature) {
             addElement(c);
             Button btnDetail = new Button("Details");
@@ -59,41 +60,9 @@ public class ListCandidatureForm extends Form {
     }
 
     public void addElement(Candidature ca) {
-
-        add("Lettre de motivation:   " + ca.getLettreMotivation());
-
-        add("Etat:   " + ca.getEtatID());
+        add("Candidature Numero:   " + ca.getId());
+        add("Lettre de motivation:   " + ca.getLettreMotivation());        
 
     }
-    /*
-    public void addCardView(Candidature ca) {
-        Button btnDetail = new Button("Details");
-
-        Container cardContainer = new Container(new BorderLayout());
-        cardContainer.getStyle().setBorder(Border.createLineBorder(1, 0xaaaaaa));
-
-        Label lettreMotivationLabel = new Label("Lettre Motivation: " + ca.getLettreMotivation());
-        Label cvLabel = new Label("Cv: " + ca.getCv());
-        Label etatLabel = new Label("Etat: " + ca.getEtatID());
-
-        Container contentContainer = new Container(new GridLayout(3, 1));
-        contentContainer.add(lettreMotivationLabel);
-        contentContainer.add(cvLabel);
-        contentContainer.add(etatLabel);
-
-        cardContainer.add(BorderLayout.CENTER, contentContainer);
-        btnDetail.addActionListener((ActionEvent e) -> {
-            cadidid = ca.getId();
-            try {
-                new DetailsCandidForm().show();
-
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-
-            }
-
-        });
-        addAll(cardContainer, btnDetail);
-
-    }*/
+   
 }

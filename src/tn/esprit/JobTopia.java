@@ -51,7 +51,7 @@ public class JobTopia {
     }
     
     public void start() {
-        new HomeCandidatureForm().show(); ;
+        new ListCandidatureForm().show(); ;
     }
 
     public void stop() {

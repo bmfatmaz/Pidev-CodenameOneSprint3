@@ -29,41 +29,37 @@ public class modifCandidature extends Form {
 
     public static int id;
 
-    public modifCandidature() throws IOException {
-
-        ServiceCandidature sc = new ServiceCandidature();
-        Candidature ss = ServiceCandidature.getInstance().getOneCandidature(id);
-        Toolbar tb = this.getToolbar();
-
-        tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> {
-            new ListCandidatureForm().show();
-        });
-        tb.addMaterialCommandToSideMenu("Offres", FontImage.MATERIAL_WEB, e -> {
-
-            new HomeCandidatureForm().show();
-            // Logger.getLogger(ListFreelancerForm.class.getName()).log(Level.SEVERE, null, ex);
-        });
-
-        setTitle("Modification Form");
+    public modifCandidature(int candidid) throws IOException {
+        setTitle("Modification Offre");
         setLayout(new FlowLayout(CENTER, CENTER));
-        Candidature c = ServiceCandidature.getInstance().getOneCandidature(id);System.out.println(c);
-        TextField lettremotivation = new TextField(c.getLettreMotivation());
-        TextField cv = new TextField(c.getCv());
+        Candidature c = ServiceCandidature.getInstance().getOneCandidature(candidid);
+        Form previous = new DetailsCandidForm();
+        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, (evt) -> {
+            previous.showBack();
+        });
+        System.out.println(c);
+        
+        Label lettre = new Label("Lettre de motivation");
+        TextField tfLettre = new TextField(c.getLettreMotivation());
 
-        Button btnModif = new Button("Modifier");
+        Button btnLogin = new Button("Modifier");
         Container cn = new Container(BoxLayout.y());
 
-        btnModif.addActionListener(e -> {
-            modifCandidature.id = c.getId();
-            c.setLettreMotivation(lettremotivation.getText());
-            c.setCv(cv.getText());
-            Boolean mod = sc.Modif(c);
-            //  f.setCategorie(cat.getText());
-
-            Dialog.show("Warning", "Profil modifié ! ", "OK", null);
+        btnLogin.addActionListener(e -> {
+            ServiceCandidature sc = new ServiceCandidature();
+            c.setId(DetailsCandidForm.n);
+            c.setLettreMotivation(tfLettre.getText());
+            boolean mod = sc.Modif(c);
+            if (mod) {
+                Dialog.show("Success", "Offre modifié ! ", "OK", null);
+                new ListCandidatureForm().show();
+            } else {
+                Dialog.show("Error", "Erreur lors de la modification de l'offre", "OK", null);
+            }
         });
 
-        cn.addAll(lettremotivation, cv);
+        cn.addAll(lettre,tfLettre, btnLogin);
         add(cn);
     }
+
 }

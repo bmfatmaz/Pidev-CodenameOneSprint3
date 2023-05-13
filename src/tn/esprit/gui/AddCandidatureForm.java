@@ -16,6 +16,7 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import tn.esprit.entities.Candidature;
 import com.codename1.ext.filechooser.FileChooser;
+import com.codename1.ui.ComboBox;
 
 import tn.esprit.services.ServiceCandidature;
 
@@ -26,13 +27,19 @@ import tn.esprit.services.ServiceCandidature;
 public class AddCandidatureForm extends Form {
 
     private String filePath;
-
-    public AddCandidatureForm(Form previous) {
+    public static int offreids; 
+    public static int freelancerids;
+    public AddCandidatureForm() {
+        //Form previous = new ListCandidatureForm();
         setTitle("Ajouter une candidature");
         setLayout(BoxLayout.y());
-
+        /*getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, (evt) -> {
+            previous.showBack();
+        });*/
         TextArea tfLettreMotivation = new TextField("", "Lettre De Motivation");
         TextField tfOffreId = new TextField("", "offreID ");
+        //ComboBox<Integer> tfOffreId = new ComboBox<>(offreids);
+        //ComboBox<Integer> tfFreelancerId = new ComboBox<>(freelancerids);
         TextField tfFreelancerId = new TextField("", "freelancerID ");
         Button fileSelectButton = new Button("Select PDF");
         fileSelectButton.addActionListener(e -> {
@@ -53,7 +60,7 @@ public class AddCandidatureForm extends Form {
                             Dialog.show("Error", "Invalid file selected. Please select a PDF file", "OK", null);
                         }
                     }
-                    
+
                 });
             }
         });
@@ -92,14 +99,13 @@ public class AddCandidatureForm extends Form {
                 if (ServiceCandidature.getInstance().AjouterCandidature(candidature)) {
                     Dialog.show("Error", "Request Error", "OK", null);
                 } else {
-                    Dialog.show("Success", "Candidature ajouté", "Ok", null);
+                    Dialog.show("Success", "Candidature ajouté", "OK", null);
+                    new HomeCandidatureForm().show();
                 }
             }
         });
 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, (evt) -> {
-            previous.showBack();
-        });
+        
 
         addAll(tfFreelancerId, tfLettreMotivation, tfOffreId, fileSelectButton, btnConfirmer);
     }
